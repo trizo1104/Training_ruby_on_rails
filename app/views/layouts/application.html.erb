@@ -21,7 +21,7 @@
       <%= render "shared/flash" %>
       <div class="min-h-screen">
         <%= render "shared/sidebar", active_nav: @active_nav || "assignments" %>
-        <div class="flex min-h-screen flex-col lg:pl-72">
+        <div class="flex min-h-screen flex-col lg:pl-72" data-controller="image-lightbox">
           <%= render "shared/topbar", title: @page_title || "Workspace" %>
           <%= render "shared/mobile_navigation", active_nav: @active_nav || "assignments" %>
           <main class="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:pb-8 lg:pt-28">
@@ -29,6 +29,7 @@
               <%= yield %>
             </div>
           </main>
+          <%= render "shared/image_lightbox" %>
         </div>
       </div>
     </div>

@@ -41,11 +41,43 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 2, assignment.images.reload.count
   end
 
+  test "renders the image lightbox for assignment images" do
+    assignment = assignments(:one)
+    assignment.images.attach(upload("first.png"))
+    assignment.save!
+
+    get assignment_path(assignment)
+
+    assert_response :success
+    assert_select "[data-controller='image-lightbox']", count: 1
+    assert_select "[data-image-lightbox-gallery] [data-action='click->image-lightbox#open']", count: 1
+    assert_select "[data-image-lightbox-url]", count: 1
+    assert_select "[data-image-lightbox-target='modal']", count: 1
+  end
+
+  test "uses the same lightbox gallery on index and edit pages" do
+    assignment = assignments(:one)
+    assignment.images.attach([ upload("first.png"), upload("second.png") ])
+    assignment.save!
+
+    get assignments_path
+    assert_select "[data-image-lightbox-gallery] [data-image-lightbox-url]", count: 2
+
+    get edit_assignment_path(assignment)
+    assert_select "[data-image-lightbox-gallery] [data-image-lightbox-url]", count: 2
+  end
+
   test "profile updates only the current user" do
     patch profile_path, params: { user: { first_name: "Updated" } }
 
     assert_redirected_to profile_path
     assert_equal "Updated", users(:one).reload.first_name
     assert_equal "Second", users(:two).reload.first_name
+  end
+
+  private
+
+  def upload(filename)
+    Rack::Test::UploadedFile.new(StringIO.new("image data"), "image/png", original_filename: filename)
   end
 end
