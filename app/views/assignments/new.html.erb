@@ -1,0 +1,10 @@
+<% @page_title = "Create assignment" %>
+<% @active_nav = "create" %>
+
+<div class="space-y-6">
+  <%= render "shared/page_header", title: "Create a new assignment", description: "Add the assignment details and any images needed to mark it finished.", action_label: "Back", action_path: assignments_path %>
+
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+    <%= render "form", assignment: @assignment %>
+  </div>
+</div>

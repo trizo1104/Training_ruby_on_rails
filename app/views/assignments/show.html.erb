@@ -1,0 +1,42 @@
+<% @page_title = "Assignment details" %>
+<% @active_nav = "assignments" %>
+
+<div class="space-y-6">
+  <%= render "shared/page_header", title: "Assignment details", description: "Review the assignment content and attached materials.", action_label: "Edit", action_path: edit_assignment_path(@assignment) %>
+
+  <div class="grid gap-6 lg:grid-cols-[1fr_0.8fr]">
+    <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <h3 class="text-xl font-semibold text-slate-900">Assignment content</h3>
+        <%= render "shared/status_badge", status: @assignment.status %>
+      </div>
+      <p class="mt-6 whitespace-pre-wrap text-sm leading-7 text-slate-600"><%= @assignment.content %></p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        <% [["Owner", @assignment.user.full_name], ["Department", @assignment.user.department], ["Images", pluralize(@assignment.images.count, "image")], ["Created", l(@assignment.created_at, format: :short)], ["Updated", l(@assignment.updated_at, format: :short)]].each do |label, value| %>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <p class="text-sm text-slate-500"><%= label %></p>
+            <p class="mt-2 font-semibold text-slate-900"><%= value %></p>
+          </div>
+        <% end %>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <%= link_to "Edit assignment", edit_assignment_path(@assignment), class: "rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-600" %>
+        <%= button_to "Delete assignment", assignment_path(@assignment), method: :delete, class: "rounded-lg border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-600 hover:bg-rose-50", form: { data: { turbo_confirm: "Delete this assignment?" } } %>
+      </div>
+    </section>
+
+    <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h3 class="text-lg font-semibold text-slate-900">Attached images</h3>
+      <% if @assignment.images.attached? %>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2">
+          <% @assignment.images.each do |image| %>
+            <%= image_tag image, class: "h-36 w-full rounded-2xl object-cover", alt: "Assignment image", loading: "lazy" %>
+          <% end %>
+        </div>
+      <% else %>
+        <%= image_tag "assignment-placeholder.svg", class: "mt-4 h-48 w-full rounded-2xl object-cover", alt: "No assignment images" %>
+        <p class="mt-4 text-sm text-slate-500">No images are attached yet.</p>
+      <% end %>
+    </section>
+  </div>
+</div>

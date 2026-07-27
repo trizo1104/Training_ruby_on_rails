@@ -1,0 +1,18 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: fixture@example.com
+  encrypted_password: "$2a$04$CBHnIZ4tpFE6ILpymiZ3FO6eBFlJe4BZqgHrFr0d/wSyhftF8itZu"
+  username: fixture_user
+  first_name: Fixture
+  last_name: User
+  department: Engineering
+
+two:
+  email: second-fixture@example.com
+  encrypted_password: "$2a$04$CBHnIZ4tpFE6ILpymiZ3FO6eBFlJe4BZqgHrFr0d/wSyhftF8itZu"
+  username: second_fixture_user
+  first_name: Second
+  last_name: Fixture
+  department: Design
+# column: value

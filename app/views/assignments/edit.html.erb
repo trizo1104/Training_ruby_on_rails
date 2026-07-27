@@ -1,0 +1,10 @@
+<% @page_title = "Edit assignment" %>
+<% @active_nav = "create" %>
+
+<div class="space-y-6">
+  <%= render "shared/page_header", title: "Edit assignment", description: "Update the content or add and remove assignment images.", action_label: "View details", action_path: assignment_path(@assignment) %>
+
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+    <%= render "form", assignment: @assignment %>
+  </div>
+</div>

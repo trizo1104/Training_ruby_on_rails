@@ -1,0 +1,9 @@
+<div class="border-b border-slate-200 bg-white px-4 py-3 lg:hidden">
+  <nav class="flex flex-wrap gap-2" aria-label="Mobile navigation">
+    <% items = [{label: "Assignments", path: assignments_path, key: "assignments"}, {label: "Profile", path: profile_path, key: "profile"}] %>
+    <% items.each do |item| %>
+      <% active = item[:key] == local_assigns.fetch(:active_nav, "assignments") %>
+      <%= link_to item[:label], item[:path], class: ["rounded-full px-3 py-1.5 text-sm font-medium transition", active ? "bg-sky-100 text-sky-700" : "bg-slate-100 text-slate-600"].join(" ") %>
+    <% end %>
+  </nav>
+</div>

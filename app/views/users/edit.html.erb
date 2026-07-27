@@ -1,0 +1,32 @@
+<% @page_title = "Edit profile" %>
+<% @active_nav = "profile" %>
+
+<div class="space-y-6">
+  <%= render "shared/page_header", title: "Edit profile", description: "Update the details shown in your workspace.", action_label: "Cancel", action_path: profile_path %>
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+    <%= render "shared/form_errors", resource: @user %>
+    <%= form_with model: @user, url: profile_path, method: :patch, multipart: true, class: "space-y-6" do |form| %>
+      <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+        <%= render "shared/avatar", user: @user, size: "lg" %>
+        <div class="flex-1" data-controller="file-upload" data-file-upload-max-files-value="1" data-file-upload-max-size-value="5242880">
+          <%= form.label :avatar, "Profile avatar", class: "mb-2 block text-sm font-medium text-slate-700" %>
+          <label for="user_avatar" class="block cursor-pointer rounded-2xl border-2 border-dashed border-slate-300 p-4 outline-none hover:border-sky-400 focus-within:border-sky-500" data-file-upload-target="dropzone" tabindex="0">
+            <span class="text-sm font-semibold text-slate-700">Drop an image or choose a file</span>
+            <span class="mt-1 block text-xs text-slate-500">JPEG, PNG, or WebP up to 5 MB.</span>
+            <%= form.file_field :avatar, accept: "image/jpeg,image/png,image/webp", class: "sr-only", data: { file_upload_target: "input", action: "change->file-upload#select keydown->file-upload#activate" } %>
+          </label>
+          <p class="mt-2 text-sm text-rose-600" data-file-upload-target="message" role="alert" aria-live="polite"></p>
+          <div class="mt-3" data-file-upload-target="previewContainer"></div>
+        </div>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div><%= form.label :email, class: "mb-2 block text-sm font-medium text-slate-700" %><%= form.email_field :email, required: true, class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-sky-500 focus:bg-white" %></div>
+        <div><%= form.label :username, class: "mb-2 block text-sm font-medium text-slate-700" %><%= form.text_field :username, required: true, class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-sky-500 focus:bg-white" %></div>
+        <div><%= form.label :first_name, class: "mb-2 block text-sm font-medium text-slate-700" %><%= form.text_field :first_name, required: true, class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-sky-500 focus:bg-white" %></div>
+        <div><%= form.label :last_name, class: "mb-2 block text-sm font-medium text-slate-700" %><%= form.text_field :last_name, required: true, class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-sky-500 focus:bg-white" %></div>
+        <div class="md:col-span-2"><%= form.label :department, class: "mb-2 block text-sm font-medium text-slate-700" %><%= form.text_field :department, required: true, class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-sky-500 focus:bg-white" %></div>
+      </div>
+      <div class="flex flex-wrap gap-3"><%= form.submit "Save changes", class: "rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-600" %><%= link_to "Cancel", profile_path, class: "rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50" %></div>
+    <% end %>
+  </div>
+</div>
