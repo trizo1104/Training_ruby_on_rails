@@ -12,4 +12,7 @@ Rails.application.routes.draw do
     delete "images/:attachment_id", to: "assignments#remove_image", as: :image
   end
   resource :profile, only: %i[show edit update], controller: :users
+
+  match "*unmatched_route", to: "errors#not_found", via: :all,
+    constraints: ->(request) { !request.path.start_with?("/rails/active_storage/") }
 end

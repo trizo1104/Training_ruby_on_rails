@@ -55,6 +55,17 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "[data-image-lightbox-target='modal']", count: 1
   end
 
+  test "serves attached images through active storage" do
+    assignment = assignments(:one)
+    assignment.images.attach(upload("first.png"))
+    assignment.save!
+
+    get rails_blob_path(assignment.images.first)
+
+    assert_response :redirect
+    assert_match %r{/rails/active_storage/disk/}, response.location
+  end
+
   test "uses the same lightbox gallery on index and edit pages" do
     assignment = assignments(:one)
     assignment.images.attach([ upload("first.png"), upload("second.png") ])

@@ -26,4 +26,27 @@ class UiPagesTest < ActionDispatch::IntegrationTest
     get profile_url
     assert_response :success
   end
+
+  test "unknown routes render the not found page" do
+    get "/page-that-does-not-exist"
+
+    assert_response :not_found
+    assert_select "p", text: "404"
+    assert_select "h1", text: "Page not found"
+  end
+
+  test "not found page does not require authentication" do
+    delete destroy_user_session_path
+    get "/page-that-does-not-exist"
+
+    assert_response :not_found
+    assert_select "h1", text: "Page not found"
+  end
+
+  test "missing assignments render the not found page" do
+    get assignment_url(999_999)
+
+    assert_response :not_found
+    assert_select "h1", text: "Page not found"
+  end
 end
