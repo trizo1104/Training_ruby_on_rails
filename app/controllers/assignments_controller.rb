@@ -8,7 +8,7 @@ class AssignmentsController < ApplicationController
     scope = current_user.assignments.with_attached_images.order(created_at: :desc)
     scope = scope.where("content ILIKE ?", "%#{Assignment.sanitize_sql_like(params[:search])}%") if params[:search].present?
     scope = scope.where(status: params[:status]) if Assignment.statuses.key?(params[:status])
-    @pagy, @assignments = pagy(scope, limit: 10)
+    @pagy, @assignments = pagy(:offset, scope, limit: 3)
   end
 
   def show
