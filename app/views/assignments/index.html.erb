@@ -2,6 +2,19 @@
 <% @active_nav = "assignments" %>
 
 <div class="space-y-6">
+  <%
+    export_params =
+      request.query_parameters
+            .except("page")
+            .merge(format: :xlsx)
+  %>
+
+  <%= link_to assignments_path(export_params),
+              class: "inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700",
+              data: { turbo: false } do %>
+    Export Excel
+  <% end %>
+
   <%= render "shared/page_header", title: "My assignments", description: "Browse your personal backlog and keep everything moving.", action_label: "Create assignment", action_path: new_assignment_path %>
 
   <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">

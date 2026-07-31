@@ -8,7 +8,53 @@ class AssignmentsController < ApplicationController
     scope = current_user.assignments.with_attached_images.order(created_at: :desc)
     scope = scope.where("content ILIKE ?", "%#{Assignment.sanitize_sql_like(params[:search])}%") if params[:search].present?
     scope = scope.where(status: params[:status]) if Assignment.statuses.key?(params[:status])
-    @pagy, @assignments = pagy(:offset, scope, limit: 3)
+    # @pagy, @assignments = pagy(:offset, scope, limit: 3)
+
+
+    respond_to do |format|
+      format.html do
+        @pagy, @assignments = pagy(:offset, scope, limit: 4)
+      end
+
+      format.xlsx do
+      @assignments = scope.to_a
+      @export_image_paths = {}
+      temporary_files = []
+
+        begin
+          @assignments.each do |assignment|
+            @export_image_paths[assignment.id] =
+              assignment.images.filter_map do |image|
+                next unless image.blob.image?
+
+                extension = File.extname(image.filename.to_s)
+
+                tempfile = Tempfile.new(
+                  [ "assignment-#{assignment.id}-", extension ]
+                )
+
+                tempfile.binmode
+                tempfile.write(image.blob.download)
+                tempfile.flush
+
+                temporary_files << tempfile
+
+                tempfile.path
+              end
+          end
+
+        response.headers["Content-Disposition"] =
+          %(attachment; filename="assignments_#{Date.current}.xlsx")
+
+        render template: "assignments/index",
+               formats: [ :xlsx ],
+               handlers: [ :axlsx ],
+               layout: false
+        ensure
+          temporary_files.each(&:close!)
+        end
+      end
+    end
   end
 
   def show

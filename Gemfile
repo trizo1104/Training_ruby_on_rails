@@ -95,6 +95,12 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 # Development and test
 # ============================================================
 
+
+gem "haml"
+
+gem "caxlsx"
+gem "caxlsx_rails"
+
 group :development, :test do
   # Ruby debugger
   gem "debug",
