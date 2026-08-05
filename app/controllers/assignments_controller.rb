@@ -17,42 +17,34 @@ class AssignmentsController < ApplicationController
       end
 
       format.xlsx do
-      @assignments = scope.to_a
-      @export_image_paths = {}
-      temporary_files = []
+        exporter = Assignments::XlsxExporter.new(scope.to_a)
 
-        begin
-          @assignments.each do |assignment|
-            @export_image_paths[assignment.id] =
-              assignment.images.filter_map do |image|
-                next unless image.blob.image?
+        @assignments = exporter.assignments
+        @export_image_paths = exporter.export_image_paths
 
-                extension = File.extname(image.filename.to_s)
-
-                tempfile = Tempfile.new(
-                  [ "assignment-#{assignment.id}-", extension ]
-                )
-
-                tempfile.binmode
-                tempfile.write(image.blob.download)
-                tempfile.flush
-
-                temporary_files << tempfile
-
-                tempfile.path
-              end
-          end
+        exporter.prepare
 
         response.headers["Content-Disposition"] =
           %(attachment; filename="assignments_#{Date.current}.xlsx")
 
         render template: "assignments/index",
-               formats: [ :xlsx ],
-               handlers: [ :axlsx ],
-               layout: false
-        ensure
-          temporary_files.each(&:close!)
-        end
+              formats: [ :xlsx ],
+              handlers: [ :axlsx ],
+              layout: false
+      ensure
+        exporter.cleanup
+      end
+
+      format.xml do
+        exporter = Assignments::XmlExporter.new(scope.to_a)
+        xml = exporter.call
+
+        send_data(
+          xml,
+          filename: "assignments_#{Date.current}.xml",
+          type: "application/xml",
+          disposition: "attachment"
+        )
       end
     end
   end

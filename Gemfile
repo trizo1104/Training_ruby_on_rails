@@ -101,6 +101,9 @@ gem "haml"
 gem "caxlsx"
 gem "caxlsx_rails"
 
+gem "wicked_pdf"
+gem "wkhtmltopdf-binary"
+
 group :development, :test do
   # Ruby debugger
   gem "debug",

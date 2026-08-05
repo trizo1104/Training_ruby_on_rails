@@ -3,16 +3,19 @@
 
 <div class="space-y-6">
   <%
-    export_params =
-      request.query_parameters
-            .except("page")
-            .merge(format: :xlsx)
+    base_export_params = request.query_parameters.except("page")
   %>
 
-  <%= link_to assignments_path(export_params),
+  <%= link_to assignments_path(base_export_params.merge(format: :xlsx)),
               class: "inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700",
               data: { turbo: false } do %>
     Export Excel
+  <% end %>
+
+  <%= link_to assignments_path(base_export_params.merge(format: :xml)),
+              class: "inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700",
+              data: { turbo: false } do %>
+    Export Xml
   <% end %>
 
   <%= render "shared/page_header", title: "My assignments", description: "Browse your personal backlog and keep everything moving.", action_label: "Create assignment", action_path: new_assignment_path %>
