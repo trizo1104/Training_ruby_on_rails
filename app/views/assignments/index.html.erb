@@ -18,6 +18,12 @@
     Export Xml
   <% end %>
 
+   <%= link_to assignments_path(base_export_params.merge(format: :pdf)),
+              class: "inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700",
+              data: { turbo: false } do %>
+    Export PDF
+  <% end %>
+
   <%= render "shared/page_header", title: "My assignments", description: "Browse your personal backlog and keep everything moving.", action_label: "Create assignment", action_path: new_assignment_path %>
 
   <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">

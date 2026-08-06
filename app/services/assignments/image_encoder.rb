@@ -21,6 +21,10 @@ module Assignments
       resized_tempfile&.close! # close the resized tempfile and delete it from the filesystem
     end
 
+    def data_uri
+        "data:#{image.content_type};base64,#{call}"
+    end
+
     private
 
     attr_reader :image

@@ -46,6 +46,14 @@ class AssignmentsController < ApplicationController
           disposition: "attachment"
         )
       end
+
+      format.pdf do
+        @assignments = scope.to_a
+
+         render pdf: "assignments",
+                layout: "pdf",
+                disposition: "attachment" # 2 types: inline - view immediately on browser, attachment - download the file
+      end
     end
   end
 
