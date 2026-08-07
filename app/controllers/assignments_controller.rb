@@ -49,10 +49,16 @@ class AssignmentsController < ApplicationController
 
       format.pdf do
         @assignments = scope.to_a
+        @user = current_user
 
          render pdf: "assignments",
                 layout: "pdf",
-                disposition: "attachment" # 2 types: inline - view immediately on browser, attachment - download the file
+                disposition: "inline", # 2 types: inline - view immediately on browser, attachment - download the file
+                footer: {
+                  html: {
+                    template: "shared/pdf_footer"
+                  }
+                }
       end
     end
   end
@@ -105,6 +111,7 @@ class AssignmentsController < ApplicationController
 
   def remove_image
     attachment = @assignment.images.attachments.find(params[:attachment_id])
+    puts "attachment: #{attachment}"
     attachment.purge
     @assignment.images.reload
     @assignment.sync_status_with_images!
@@ -113,8 +120,13 @@ class AssignmentsController < ApplicationController
 
   private
 
+  # def set_assignment
+  #   @assignment = current_user.assignments.find(params[:id])
+  # end
+
   def set_assignment
-    @assignment = current_user.assignments.find(params[:id])
+    id = params[:id] || params[:assignment_id]
+    @assignment = current_user.assignments.find(id)
   end
 
   def assignment_params

@@ -32,9 +32,13 @@ export default class extends Controller {
     requestAnimationFrame(() => this.closeTarget.focus())
   }
 
-  close(event) {
-    if (event && event.target !== this.modalTarget) return
+  // close(event) {
+  //   if (event && event.target !== this.modalTarget) return
 
+  //   this.closeModal()
+  // }
+
+  close() {
     this.closeModal()
   }
 

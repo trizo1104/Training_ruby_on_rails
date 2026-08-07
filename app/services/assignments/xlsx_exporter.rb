@@ -31,14 +31,16 @@ module Assignments
     end
 
     def create_tempfile(image, assignment_id)
-      extension = File.extname(image.filename.to_s)
+      # extension = File.extname(image.filename.to_s)
+
+      variant = image.variant(format: :png).processed # convert all images to png format for xlsx export
 
       tempfile = Tempfile.new(
-        [ "assignment-#{assignment_id}-", extension ]
+        [ "assignment-#{assignment_id}-", ".png" ]
       )
 
       tempfile.binmode
-      tempfile.write(image.download)
+      tempfile.write(variant.download)
       tempfile.flush
 
       temporary_files << tempfile

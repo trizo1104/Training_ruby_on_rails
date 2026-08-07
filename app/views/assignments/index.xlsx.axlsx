@@ -131,8 +131,6 @@ workbook.add_worksheet(name: "Assignments") do |sheet|
 
     sheet.add_image(
       image_src: image_path,
-      noSelect: true,
-      noMove: true
     ) do |image|
       image.width = 80
       image.height = 80

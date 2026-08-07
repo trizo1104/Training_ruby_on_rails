@@ -97,6 +97,7 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 
 
 gem "haml"
+gem "haml-rails"
 
 gem "caxlsx"
 gem "caxlsx_rails"
