@@ -1,0 +1,14 @@
+Assignment submitted successfully
+
+Hello <%= @user.full_name %>,
+
+Your assignment has been submitted successfully.
+
+Assignment content:
+
+<%= @assignment.content %>
+
+Submitted images:
+<% @assignment.images.each do |image| %>
+- <%= image.filename.to_s %>
+<% end %>

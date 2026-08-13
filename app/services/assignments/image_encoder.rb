@@ -5,20 +5,13 @@ module Assignments
     end
 
     def call
-      binary = download_image
-
-      tempfile = create_tempfile(binary)
-
-      resized_tempfile =  resize_image(tempfile)
-
-      resized_binary  = read_binary(resized_tempfile)
-
       encode_base64(resized_binary)
 
       # puts tempfile.path # just use when debugging
-    ensure
-      tempfile&.close! # close the tempfile and delete it from the filesystem
-      resized_tempfile&.close! # close the resized tempfile and delete it from the filesystem
+    end
+
+    def resized_for_email
+      resized_binary
     end
 
     def data_uri
@@ -28,6 +21,19 @@ module Assignments
     private
 
     attr_reader :image
+
+    def resized_binary
+      binary = download_image
+
+      tempfile = create_tempfile(binary)
+
+      resized_tempfile = resize_image(tempfile)
+
+      read_binary(resized_tempfile)
+    ensure
+      tempfile&.close! # close the tempfile and delete it from the filesystem
+      resized_tempfile&.close! # close the resized tempfile and delete it from the filesystem
+    end
 
     def download_image
         image.download

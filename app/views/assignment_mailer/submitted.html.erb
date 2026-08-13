@@ -1,0 +1,23 @@
+<h1>Assignment submitted successfully</h1>
+
+<p>
+  Hello <%= @user.full_name %>,
+</p>
+
+<p>
+  Your assignment has been submitted successfully.
+</p>
+
+<h2>Assignment content</h2>
+
+<%= simple_format(@assignment.content) %>
+
+<h2>Submitted images</h2>
+
+<% @assignment.images.each do |image| %>
+  <p>
+    <%= image_tag attachments[image.filename.to_s].url,
+                  alt: image.filename.to_s,
+                  style: "max-width: 800px; width: 100%; height: auto;" %>
+  </p>
+<% end %>

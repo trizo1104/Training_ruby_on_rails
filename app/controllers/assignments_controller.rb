@@ -85,6 +85,11 @@ class AssignmentsController < ApplicationController
 
     if @assignment.save
       @assignment.sync_status_with_images!
+
+    if @new_images_uploaded
+      AssignmentMailer.submitted(@assignment).deliver_later
+    end
+
       redirect_to @assignment, notice: "Assignment created successfully."
     else
       prepare_form
@@ -97,6 +102,11 @@ class AssignmentsController < ApplicationController
 
     if @assignment.save
       @assignment.sync_status_with_images!
+
+      if @new_images_uploaded
+        AssignmentMailer.submitted(@assignment).deliver_later # deliver_later - send email in background, deliver_now - send email immediately
+      end
+
       redirect_to @assignment, notice: "Assignment updated successfully."
     else
       prepare_form
@@ -111,7 +121,6 @@ class AssignmentsController < ApplicationController
 
   def remove_image
     attachment = @assignment.images.attachments.find(params[:attachment_id])
-    puts "attachment: #{attachment}"
     attachment.purge
     @assignment.images.reload
     @assignment.sync_status_with_images!
@@ -136,6 +145,7 @@ class AssignmentsController < ApplicationController
   def assign_attributes_with_images
     permitted = assignment_params
     new_images = permitted.delete(:images)
+    @new_images_uploaded = new_images.present?
     @assignment.assign_attributes(permitted)
     if new_images.present?
       @assignment.validate_uploaded_images(new_images)

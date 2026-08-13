@@ -111,6 +111,8 @@ group :development, :test do
       platforms: %i[mri windows],
       require: "debug/prelude"
 
+  gem "letter_opener_web"
+
   # Generate sample data in db/seeds.rb
   gem "faker"
 
