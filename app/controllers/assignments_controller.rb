@@ -90,7 +90,7 @@ class AssignmentsController < ApplicationController
       AssignmentMailer.submitted(@assignment).deliver_later
     end
 
-      redirect_to @assignment, notice: "Assignment created successfully."
+    redirect_to @assignment, notice: "Assignment created successfully."
     else
       prepare_form
       render :new, status: :unprocessable_entity
@@ -145,9 +145,13 @@ class AssignmentsController < ApplicationController
   def assign_attributes_with_images
     permitted = assignment_params
     new_images = permitted.delete(:images)
-    @new_images_uploaded = new_images.present?
+
+    new_images = new_images&.reject(&:blank?) || []
+
+    @new_images_uploaded = new_images.any?
+
     @assignment.assign_attributes(permitted)
-    if new_images.present?
+    if @new_images_uploaded
       @assignment.validate_uploaded_images(new_images)
       @assignment.images.attach(new_images) unless @assignment.errors.any?
     end

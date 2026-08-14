@@ -2,27 +2,63 @@
 <% @active_nav = "assignments" %>
 
 <div class="space-y-6">
-  <%
-    base_export_params = request.query_parameters.except("page")
-  %>
+  <div class="flex justify-end">
+    <%
+      base_export_params = request.query_parameters.except("page")
+    %>
 
-  <%= link_to assignments_path(base_export_params.merge(format: :xlsx)),
-              class: "inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700",
-              data: { turbo: false } do %>
-    Export Excel
-  <% end %>
+    <div data-controller="dropdown" class="relative inline-block">
+      <button
+        type="button"
+        data-dropdown-target="button"
+        data-action="click->dropdown#toggle"
+        aria-expanded="false"
+        class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700"
+      >
+        Export
 
-  <%= link_to assignments_path(base_export_params.merge(format: :xml)),
-              class: "inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700",
-              data: { turbo: false } do %>
-    Export Xml
-  <% end %>
+        <svg
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+          class="-mr-1 size-5"
+        >
+          <path
+            d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+            clip-rule="evenodd"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </button>
 
-   <%= link_to assignments_path(base_export_params.merge(format: :pdf)),
-              class: "inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700",
-              data: { turbo: false } do %>
-    Export PDF
-  <% end %>
+      <div
+        data-dropdown-target="menu"
+        class="absolute right-0 z-50 mt-2 hidden w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5"
+      >
+
+        <%= link_to assignments_path(base_export_params.merge(format: :xlsx)),
+                    class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden",
+                    data: { turbo: false } do %>
+          Export Excel
+        <% end %>
+
+        <%= link_to assignments_path(base_export_params.merge(format: :xml)),
+                    class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden",
+                    data: { turbo: false } do %>
+          Export XML
+        <% end %>
+
+        <%= link_to assignments_path(base_export_params.merge(format: :pdf)),
+                    class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden",
+                    data: { turbo: false } do %>
+          Export PDF
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+
+  
 
   <%= render "shared/page_header", title: "My assignments", description: "Browse your personal backlog and keep everything moving.", action_label: "Create assignment", action_path: new_assignment_path %>
 
