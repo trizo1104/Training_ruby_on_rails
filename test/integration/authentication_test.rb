@@ -117,4 +117,17 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, "Personal assignment workspace"
     assert_not_includes response.body, "My Assignments"
   end
+
+  test "language selection persists through Devise pages and validation errors" do
+    patch locale_path, params: { locale: :vi }
+    assert_redirected_to root_path
+
+    get new_user_session_path
+    assert_response :success
+    assert_includes response.body, "Đăng nhập"
+
+    post user_session_path, params: { user: { email: "missing@example.com", password: "incorrect" } }
+    assert_response :unprocessable_entity
+    assert_includes response.body, "không hợp lệ"
+  end
 end

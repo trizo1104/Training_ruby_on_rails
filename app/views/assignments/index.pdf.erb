@@ -1,24 +1,24 @@
 <h1 style="text-align:center; margin-bottom:30px;">
-  Assignment
+  <%= t("assignments.export.pdf_title") %>
 </h1>
 
 <p>
-  <strong>Generated At:</strong>
+  <strong><%= t("assignments.export.generated_at") %>:</strong>
   <%= Date.current %>
 </p>
 
 <p>
-  <strong>User:</strong>
+  <strong><%= t("common.labels.user") %>:</strong>
   <%= @user.full_name %>
 </p>
 
 <p>
-  <strong>Email:</strong>
+  <strong><%= t("common.labels.email") %>:</strong>
   <%= @user.email %>
 </p>
 
 <p>
-  <strong>Department:</strong>
+  <strong><%= t("common.labels.department") %>:</strong>
   <%= @user.department %>
 </p>
 
@@ -35,16 +35,16 @@
   <div>
 
     <h2>
-      Assignment #<%= assignment.id %>
+      <%= t("assignments.export.pdf_assignment", id: assignment.id) %>
     </h2>
 
     <p>
-      <strong>Status:</strong>
-      <%= assignment.status.humanize %>
+      <strong><%= t("common.labels.status") %>:</strong>
+      <%= t("common.labels.#{assignment.status}") %>
     </p>
 
     <p>
-      <strong>Content</strong>
+      <strong><%= t("common.labels.content") %></strong>
     </p>
 
     <%# <div style="
@@ -59,7 +59,7 @@
     </div>
 
     <p>
-      <strong>Images</strong>
+      <strong><%= t("common.labels.images") %></strong>
     </p>
 
     <% if assignment.images.attached? %>
@@ -76,7 +76,7 @@
 
     <% else %>
 
-      <em>No image</em>
+      <em><%= t("assignments.export.no_image") %></em>
 
     <% end %>
   </div>

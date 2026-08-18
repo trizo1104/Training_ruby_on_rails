@@ -15,10 +15,9 @@ class AssignmentMailer < ApplicationMailer
       }
     end
 
-    mail(
-      to: @user.email,
-      subject: "Assignment submitted successfully"
-    )
+    I18n.with_locale(:en) do
+      mail(to: @user.email, subject: I18n.t("mailers.assignment.submitted.subject"))
+    end
   end
 end
 

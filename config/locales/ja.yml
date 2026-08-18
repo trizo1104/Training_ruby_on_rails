@@ -1,0 +1,286 @@
+ja:
+  language:
+    en: "英語"
+    vi: "ベトナム語"
+    ja: "日本語"
+    switcher: "言語"
+
+  app:
+    name: "TaskFlow"
+    workspace: "個人用課題ワークスペース"
+
+  pwa:
+    name: "TaskFlow"
+    description: "個人用課題ワークスペース。"
+
+  common:
+    actions:
+      back: "戻る"
+      cancel: "キャンセル"
+      create: "作成"
+      delete: "削除"
+      edit: "編集"
+      filter: "絞り込み"
+      remove: "削除"
+      save: "保存"
+      update: "更新"
+      view_details: "詳細を見る"
+
+    labels:
+      all: "すべて"
+      assigned: "割り当て済み"
+      content: "内容"
+      created: "作成済み"
+      created_at: "作成日時"
+      department: "部署"
+      email: "メールアドレス"
+      finished: "完了"
+      images: "画像"
+      owner: "所有者"
+      status: "ステータス"
+      updated: "更新済み"
+      username: "ユーザー名"
+      user: "ユーザー"
+
+    image: "画像"
+
+    image_count:
+      one: "%{count}枚の画像"
+      other: "%{count}枚の画像"
+
+    assignment_count:
+      one: "%{count}件の課題"
+      other: "%{count}件の課題"
+
+  layouts:
+    application:
+      default_title: "TaskFlow"
+      workspace: "ワークスペース"
+
+    errors:
+      default_title: "ページが見つかりません - TaskFlow"
+
+  shared:
+    avatar:
+      alt: "%{name}のアバター"
+      default_name: "ユーザー"
+
+    flash:
+      dismiss: "通知を閉じる"
+
+    image_lightbox:
+      close: "画像ビューアを閉じる"
+      next: "次の画像"
+      previous: "前の画像"
+
+    navigation:
+      mobile: "モバイルナビゲーション"
+      open_menu: "ナビゲーションメニューを開く"
+      profile: "プロフィール"
+      sidebar: "サイドバーナビゲーション"
+      my_assignments: "自分の課題"
+      sign_out: "ログアウト"
+
+    pagination:
+      label: "ページネーション"
+      next: "次へ"
+      previous: "前へ"
+
+    form_errors:
+      one: "このフォームを保存できないエラーが1件あります。"
+      other: "このフォームを保存できないエラーが%{count}件あります。"
+
+  assignments:
+    index:
+      page_title: "課題"
+      export: "エクスポート"
+      export_excel: "Excelにエクスポート"
+      export_xml: "XMLにエクスポート"
+      export_pdf: "PDFにエクスポート"
+      title: "自分の課題"
+      description: "自分の課題を確認し、進捗を管理しましょう。"
+      create: "課題を作成"
+      search_label: "課題を検索"
+      search_placeholder: "内容を検索"
+      empty_title: "課題はまだありません"
+      empty_description: "最初の課題を作成して、ワークスペースを始めましょう。"
+      no_image: "画像なし"
+      metadata: "%{images} · 作成日 %{created_at} · 更新日 %{updated_at}"
+
+    new:
+      page_title: "課題を作成"
+      title: "新しい課題を作成"
+      description: "課題の詳細と、完了に必要な画像を追加してください。"
+
+    edit:
+      page_title: "課題を編集"
+      title: "課題を編集"
+      description: "内容を更新したり、課題の画像を追加・削除したりできます。"
+
+    show:
+      page_title: "課題の詳細"
+      title: "課題の詳細"
+      description: "課題の内容と添付ファイルを確認します。"
+      assignment_content: "課題の内容"
+      attached_images: "添付画像"
+      no_images: "画像はまだ添付されていません。"
+      no_images_alt: "課題の画像なし"
+      delete: "課題を削除"
+      delete_confirm: "この課題を削除しますか？"
+
+    form:
+      content: "課題の内容"
+      content_placeholder: "課題の内容と期待する成果を入力してください。"
+      images: "課題の画像"
+      image_hint: "JPEG、PNG、WebP形式。1ファイルにつき最大10 MB。"
+      images_finish: "画像を追加すると課題が「完了」になります"
+      existing_images: "既存の画像"
+      image_alt: "課題の画像"
+      remove_confirm: "この画像を削除しますか？"
+      dropzone: "ここに画像をドロップするか、ファイルを選択してください"
+      select_limit: "最大10枚まで選択できます。"
+      current_status: "現在のステータス"
+      status_hint: "画像がない場合は「割り当て済み」、1枚以上ある場合は「完了」になります。"
+      save: "課題を保存"
+      update: "課題を更新"
+
+    export:
+      xlsx_sheet: "課題"
+      xlsx_title: "課題一覧レポート"
+      generated_by: "作成者"
+      generated_at: "作成日時"
+      number: "No."
+      pdf_title: "課題"
+      pdf_assignment: "課題 #%{id}"
+      no_image: "画像なし"
+      page: "%{page} / %{total}ページ"
+
+  users:
+    show:
+      page_title: "プロフィール"
+      title: "プロフィール概要"
+      description: "個人情報とワークスペース情報を確認できます。"
+      edit: "プロフィールを編集"
+      about: "基本情報"
+      joined: "登録日"
+
+    edit:
+      page_title: "プロフィールを編集"
+      title: "プロフィールを編集"
+      description: "ワークスペースに表示される情報を更新します。"
+      avatar: "プロフィール画像"
+      avatar_dropzone: "ここに画像をドロップするか、ファイルを選択してください"
+      avatar_hint: "JPEG、PNG、WebP形式。最大5 MB。"
+      save: "変更を保存"
+
+  devise_views:
+    sessions:
+      page_title: "ログイン"
+      title: "おかえりなさい"
+      description: "TaskFlowを利用するにはログインしてください。"
+      remember_me: "ログイン状態を保持する"
+      forgot_password: "パスワードをお忘れですか？"
+      submit: "ログイン"
+      no_account: "アカウントをお持ちではありませんか？"
+      create_one: "アカウントを作成"
+      email_placeholder: "you@example.com"
+
+    registrations:
+      new:
+        page_title: "アカウント登録"
+        title: "アカウントを作成"
+        description: "TaskFlowに登録して課題を整理しましょう。"
+        submit: "アカウントを作成"
+        placeholders:
+          username: "alex"
+          first_name: "Alex"
+          last_name: "Johnson"
+          email: "you@example.com"
+          department: "エンジニアリング"
+
+      edit:
+        page_title: "アカウント設定"
+        title: "アカウント設定"
+        description: "TaskFlowのアカウント情報を最新の状態に保ちましょう。"
+        new_password: "新しいパスワード"
+        submit: "設定を保存"
+
+    passwords:
+      new:
+        page_title: "パスワードをお忘れですか"
+        title: "パスワードをリセット"
+        description: "メールアドレスを入力すると、パスワード再設定の手順をお送りします。"
+        submit: "再設定メールを送信"
+        sign_in: "ログイン画面に戻る"
+
+      edit:
+        page_title: "パスワードを変更"
+        title: "新しいパスワードを設定"
+        submit: "パスワードを変更"
+
+  errors:
+    not_found:
+      title: "ページが見つかりません"
+      description: "お探しのページは存在しないか、移動された可能性があります。"
+      back: "TaskFlowに戻る"
+
+  flash:
+    assignments:
+      created: "課題を作成しました。"
+      updated: "課題を更新しました。"
+      deleted: "課題を削除しました。"
+      image_removed: "画像を削除しました。"
+
+    users:
+      updated: "プロフィールを更新しました。"
+
+  mailers:
+    assignment:
+      submitted:
+        subject: "課題が正常に提出されました"
+        heading: "課題が正常に提出されました"
+        greeting: "%{name}さん、こんにちは。"
+        message: "課題が正常に提出されました。"
+        content: "課題の内容"
+        images: "提出画像"
+
+  activerecord:
+    attributes:
+      assignment:
+        content: "課題の内容"
+        images: "画像"
+
+      user:
+        avatar: "アバター"
+        current_password: "現在のパスワード"
+        department: "部署"
+        email: "メールアドレス"
+        first_name: "名"
+        last_name: "姓"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
+        username: "ユーザー名"
+
+    errors:
+      models:
+        assignment:
+          attributes:
+            images:
+              too_many: "画像は最大10枚までアップロードできます"
+              invalid_type: "JPEG、PNG、WebP形式のファイルを使用してください"
+              too_large: "各画像のサイズは10 MB未満にしてください"
+
+        user:
+          attributes:
+            avatar:
+              invalid_type: "JPEG、PNG、WebP形式の画像を使用してください"
+              too_large: "画像のサイズは5 MB未満にしてください"
+
+  date:
+    formats:
+      long: "%Y年%-m月%-d日"
+
+  time:
+    formats:
+      short: "%Y年%-m月%-d日 %H:%M"
+      long: "%Y年%-m月%-d日 %H:%M"

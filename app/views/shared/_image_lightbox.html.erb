@@ -6,19 +6,19 @@
   aria-labelledby="image-lightbox-caption"
   aria-hidden="true">
   <div class="flex h-full w-full items-center justify-center gap-3 sm:gap-6">
-    <button type="button" class="rounded-full bg-white/95 p-3 text-slate-700 shadow-lg transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40" data-image-lightbox-target="previous" data-action="click->image-lightbox#previous" aria-label="Previous image">
+    <button type="button" class="rounded-full bg-white/95 p-3 text-slate-700 shadow-lg transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40" data-image-lightbox-target="previous" data-action="click->image-lightbox#previous" aria-label="<%= t('shared.image_lightbox.previous') %>">
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m15 19-7-7 7-7" /></svg>
     </button>
 
     <div class="relative flex max-h-full max-w-6xl flex-1 flex-col items-center justify-center">
-      <button type="button" class="absolute right-0 top-0 z-10 rounded-full bg-white/95 p-2 text-slate-700 shadow-lg transition hover:bg-white" data-image-lightbox-target="close" data-action="click->image-lightbox#close" aria-label="Close image viewer">
+      <button type="button" class="absolute right-0 top-0 z-10 rounded-full bg-white/95 p-2 text-slate-700 shadow-lg transition hover:bg-white" data-image-lightbox-target="close" data-action="click->image-lightbox#close" aria-label="<%= t('shared.image_lightbox.close') %>">
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
       </button>
       <img class="max-h-[calc(100vh-7rem)] max-w-full rounded-2xl object-contain shadow-lg" data-image-lightbox-target="image" alt="">
       <p id="image-lightbox-caption" class="mt-3 text-sm font-medium text-white" data-image-lightbox-target="caption"></p>
     </div>
 
-    <button type="button" class="rounded-full bg-white/95 p-3 text-slate-700 shadow-lg transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40" data-image-lightbox-target="next" data-action="click->image-lightbox#next" aria-label="Next image">
+    <button type="button" class="rounded-full bg-white/95 p-3 text-slate-700 shadow-lg transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40" data-image-lightbox-target="next" data-action="click->image-lightbox#next" aria-label="<%= t('shared.image_lightbox.next') %>">
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7" /></svg>
     </button>
   </div>

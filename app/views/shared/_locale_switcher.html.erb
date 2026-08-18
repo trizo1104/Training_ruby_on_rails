@@ -1,0 +1,89 @@
+<div
+  class="relative"
+  data-controller="dropdown"
+>
+  <button
+    type="button"
+    class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+    data-action="click->dropdown#toggle"
+    data-dropdown-target="button"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <span class="text-base">
+      <%= {
+        en: "🇬🇧",
+        vi: "🇻🇳",
+        ja: "🇯🇵"
+      }[I18n.locale.to_sym] %>
+    </span>
+
+    <span>
+      <%= t("language.#{I18n.locale}") %>
+    </span>
+
+    <svg
+      class="h-4 w-4 text-slate-400"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.25 4.51a.75.75 0 0 1-1.08 1.04l-4.25-4.51a.75.75 0 0 1 .02-1.06Z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  </button>
+
+  <div
+    class="absolute right-0 z-50 mt-2 hidden w-44 overflow-hidden rounded-lg border border-slate-200 bg-white py-1 shadow-lg"
+    data-dropdown-target="menu"
+  >
+    <% language_flags = {
+      en: "🇬🇧",
+      vi: "🇻🇳",
+      ja: "🇯🇵"
+    } %>
+
+    <% I18n.available_locales.each do |locale| %>
+      <% current = I18n.locale.to_s == locale.to_s %>
+
+      <%= link_to(
+            url_for(request.query_parameters.merge(locale: locale)),
+            class: [
+              "flex items-center gap-3 px-3 py-2 text-sm transition-colors",
+              current ?
+                "bg-sky-50 font-semibold text-sky-700" :
+                "text-slate-700 hover:bg-slate-50"
+            ].join(" "),
+            aria: { current: current ? "true" : nil }
+          ) do %>
+
+        <span class="text-base">
+          <%= language_flags[locale.to_sym] %>
+        </span>
+
+        <span class="flex-1">
+          <%= t("language.#{locale}") %>
+        </span>
+
+        <% if current %>
+          <svg
+            class="h-4 w-4 text-sky-600"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.704 4.884a1 1 0 0 1 .012 1.414l-8.25 8.25a1 1 0 0 1-1.414 0l-3.75-3.75a1 1 0 1 1 1.414-1.414l3.043 3.043 7.543-7.543a1 1 0 0 1 1.402 0Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        <% end %>
+
+      <% end %>
+    <% end %>
+  </div>
+</div>

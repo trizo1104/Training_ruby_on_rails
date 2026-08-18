@@ -1,0 +1,256 @@
+vi:
+  language:
+    en: "Tiếng Anh"
+    vi: "Tiếng Việt"
+    ja: "Tiếng Nhật"
+    switcher: "Ngôn ngữ"
+  app:
+    name: "TaskFlow"
+    workspace: "Không gian làm việc bài tập cá nhân"
+  pwa:
+    name: "TaskFlow"
+    description: "Không gian làm việc bài tập cá nhân."
+  common:
+    actions:
+      back: "Quay lại"
+      cancel: "Hủy"
+      create: "Tạo"
+      delete: "Xóa"
+      edit: "Chỉnh sửa"
+      filter: "Lọc"
+      remove: "Gỡ"
+      save: "Lưu"
+      update: "Cập nhật"
+      view_details: "Xem chi tiết"
+    labels:
+      all: "Tất cả"
+      assigned: "Đã giao"
+      content: "Nội dung"
+      created: "Đã tạo"
+      created_at: "Ngày tạo"
+      department: "Phòng ban"
+      email: "Email"
+      finished: "Hoàn thành"
+      images: "Hình ảnh"
+      owner: "Người phụ trách"
+      status: "Trạng thái"
+      updated: "Đã cập nhật"
+      username: "Tên người dùng"
+      user: "Người dùng"
+    image: "hình ảnh"
+    image_count:
+      one: "%{count} hình ảnh"
+      other: "%{count} hình ảnh"
+    assignment_count:
+      one: "%{count} bài tập"
+      other: "%{count} bài tập"
+  layouts:
+    application:
+      default_title: "TaskFlow"
+      workspace: "Không gian làm việc"
+    errors:
+      default_title: "Không tìm thấy trang - TaskFlow"
+  shared:
+    avatar:
+      alt: "Ảnh đại diện của %{name}"
+      default_name: "Người dùng"
+    flash:
+      dismiss: "Đóng thông báo"
+    image_lightbox:
+      close: "Đóng trình xem ảnh"
+      next: "Ảnh tiếp theo"
+      previous: "Ảnh trước"
+    navigation:
+      mobile: "Điều hướng trên thiết bị di động"
+      open_menu: "Mở menu điều hướng"
+      profile: "Hồ sơ"
+      sidebar: "Điều hướng thanh bên"
+      my_assignments: "Bài tập của tôi"
+      sign_out: "Đăng xuất"
+    pagination:
+      label: "Phân trang"
+      next: "Tiếp"
+      previous: "Trước"
+    form_errors:
+      one: "%{count} lỗi khiến biểu mẫu không thể lưu."
+      other: "%{count} lỗi khiến biểu mẫu không thể lưu."
+  assignments:
+    index:
+      page_title: "Bài tập"
+      export: "Xuất"
+      export_excel: "Xuất Excel"
+      export_xml: "Xuất XML"
+      export_pdf: "Xuất PDF"
+      title: "Bài tập của tôi"
+      description: "Xem danh sách công việc cá nhân và theo dõi tiến độ dễ dàng."
+      create: "Tạo bài tập"
+      search_label: "Tìm kiếm bài tập"
+      search_placeholder: "Tìm kiếm nội dung"
+      empty_title: "Chưa có bài tập"
+      empty_description: "Tạo bài tập đầu tiên để bắt đầu không gian làm việc của bạn."
+      no_image: "Không có ảnh"
+      metadata: "%{images} · Tạo %{created_at} · Cập nhật %{updated_at}"
+    new:
+      page_title: "Tạo bài tập"
+      title: "Tạo bài tập mới"
+      description: "Thêm nội dung bài tập và hình ảnh cần thiết để đánh dấu hoàn thành."
+    edit:
+      page_title: "Chỉnh sửa bài tập"
+      title: "Chỉnh sửa bài tập"
+      description: "Cập nhật nội dung hoặc thêm và gỡ hình ảnh của bài tập."
+    show:
+      page_title: "Chi tiết bài tập"
+      title: "Chi tiết bài tập"
+      description: "Xem nội dung bài tập và tài liệu đính kèm."
+      assignment_content: "Nội dung bài tập"
+      attached_images: "Hình ảnh đính kèm"
+      no_images: "Chưa có hình ảnh nào được đính kèm."
+      no_images_alt: "Không có hình ảnh bài tập"
+      delete: "Xóa bài tập"
+      delete_confirm: "Xóa bài tập này?"
+    form:
+      content: "Nội dung bài tập"
+      content_placeholder: "Mô tả bài tập và kết quả mong đợi."
+      images: "Hình ảnh bài tập"
+      image_hint: "Tùy chọn: tệp JPEG, PNG hoặc WebP, tối đa 10 MB mỗi tệp."
+      images_finish: "Có hình ảnh thì bài tập được đánh dấu Hoàn thành"
+      existing_images: "Hình ảnh hiện có"
+      image_alt: "Hình ảnh bài tập"
+      remove_confirm: "Gỡ hình ảnh này?"
+      dropzone: "Thả hình ảnh vào đây hoặc chọn tệp"
+      select_limit: "Bạn có thể chọn tối đa 10 hình ảnh."
+      current_status: "Trạng thái hiện tại"
+      status_hint: "Không có ảnh là Đã giao; có một hoặc nhiều ảnh là Hoàn thành."
+      save: "Lưu bài tập"
+      update: "Cập nhật bài tập"
+    export:
+      xlsx_sheet: "Bài tập"
+      xlsx_title: "BÁO CÁO BÀI TẬP CỦA TÔI"
+      generated_by: "Tạo bởi"
+      generated_at: "Thời gian tạo"
+      number: "STT"
+      pdf_title: "Bài tập"
+      pdf_assignment: "Bài tập #%{id}"
+      no_image: "Không có ảnh"
+      page: "Trang %{page} / %{total}"
+  users:
+    show:
+      page_title: "Hồ sơ"
+      title: "Tổng quan hồ sơ"
+      description: "Thông tin cá nhân và không gian làm việc của bạn."
+      edit: "Chỉnh sửa hồ sơ"
+      about: "Giới thiệu"
+      joined: "Ngày tham gia"
+    edit:
+      page_title: "Chỉnh sửa hồ sơ"
+      title: "Chỉnh sửa hồ sơ"
+      description: "Cập nhật thông tin hiển thị trong không gian làm việc của bạn."
+      avatar: "Ảnh đại diện hồ sơ"
+      avatar_dropzone: "Thả ảnh vào đây hoặc chọn tệp"
+      avatar_hint: "JPEG, PNG hoặc WebP, tối đa 5 MB."
+      save: "Lưu thay đổi"
+  devise_views:
+    sessions:
+      page_title: "Đăng nhập"
+      title: "Chào mừng trở lại"
+      description: "Đăng nhập để tiếp tục đến TaskFlow."
+      remember_me: "Ghi nhớ đăng nhập"
+      forgot_password: "Quên mật khẩu?"
+      submit: "Đăng nhập"
+      no_account: "Chưa có tài khoản?"
+      create_one: "Tạo tài khoản"
+      email_placeholder: "ban@example.com"
+    registrations:
+      new:
+        page_title: "Tạo tài khoản"
+        title: "Tạo tài khoản của bạn"
+        description: "Tham gia TaskFlow để quản lý bài tập ngăn nắp hơn."
+        submit: "Tạo tài khoản"
+        placeholders:
+          username: "nguyenvana"
+          first_name: "Văn A"
+          last_name: "Nguyễn"
+          email: "ban@example.com"
+          department: "Kỹ thuật"
+      edit:
+        page_title: "Cài đặt tài khoản"
+        title: "Cài đặt tài khoản"
+        description: "Luôn cập nhật thông tin tài khoản TaskFlow của bạn."
+        new_password: "Mật khẩu mới"
+        submit: "Lưu cài đặt"
+    passwords:
+      new:
+        page_title: "Quên mật khẩu"
+        title: "Đặt lại mật khẩu"
+        description: "Nhập địa chỉ email để nhận hướng dẫn đặt lại mật khẩu."
+        submit: "Gửi hướng dẫn đặt lại"
+        sign_in: "Quay lại đăng nhập"
+      edit:
+        page_title: "Đổi mật khẩu"
+        title: "Chọn mật khẩu mới"
+        submit: "Đổi mật khẩu"
+  errors:
+    not_found:
+      title: "Không tìm thấy trang"
+      description: "Trang bạn đang tìm không tồn tại hoặc có thể đã được chuyển đi."
+      back: "Quay lại TaskFlow"
+    format: "%{attribute} %{message}"
+    messages:
+      blank: "không được để trống"
+      taken: "đã được sử dụng"
+      invalid: "không hợp lệ"
+      too_short:
+        one: "quá ngắn (tối thiểu %{count} ký tự)"
+        other: "quá ngắn (tối thiểu %{count} ký tự)"
+  flash:
+    assignments:
+      created: "Tạo bài tập thành công."
+      updated: "Cập nhật bài tập thành công."
+      deleted: "Xóa bài tập thành công."
+      image_removed: "Gỡ hình ảnh thành công."
+    users:
+      updated: "Cập nhật hồ sơ thành công."
+  mailers:
+    assignment:
+      submitted:
+        subject: "Assignment submitted successfully"
+        heading: "Assignment submitted successfully"
+        greeting: "Hello %{name},"
+        message: "Your assignment has been submitted successfully."
+        content: "Assignment content"
+        images: "Submitted images"
+  activerecord:
+    attributes:
+      assignment:
+        content: "Nội dung bài tập"
+        images: "Hình ảnh"
+      user:
+        avatar: "Ảnh đại diện"
+        current_password: "Mật khẩu hiện tại"
+        department: "Phòng ban"
+        email: "Email"
+        first_name: "Tên"
+        last_name: "Họ"
+        password: "Mật khẩu"
+        password_confirmation: "Xác nhận mật khẩu"
+        username: "Tên người dùng"
+    errors:
+      models:
+        assignment:
+          attributes:
+            images:
+              too_many: "chỉ được tải lên tối đa 10 hình ảnh"
+              invalid_type: "phải là tệp JPEG, PNG hoặc WebP"
+              too_large: "mỗi hình ảnh phải nhỏ hơn 10 MB"
+        user:
+          attributes:
+            avatar:
+              invalid_type: "phải là ảnh JPEG, PNG hoặc WebP"
+              too_large: "phải nhỏ hơn 5 MB"
+  date:
+    formats:
+      long: "%d/%m/%Y"
+  time:
+    formats:
+      short: "%d/%m/%Y %H:%M"
+      long: "%d/%m/%Y lúc %H:%M"

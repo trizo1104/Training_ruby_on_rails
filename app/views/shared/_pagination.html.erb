@@ -1,5 +1,5 @@
 <% if pagy && pagy.pages > 1 %>
-  <nav class="flex flex-col items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm text-slate-500 shadow-sm sm:flex-row" aria-label="Pagination">
+  <nav class="flex flex-col items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm text-slate-500 shadow-sm sm:flex-row" aria-label="<%= t('shared.pagination.label') %>">
     <p>
       Showing <%= pagy.from %>–<%= pagy.to %>
       of <%= pagy.count %> assignments
@@ -7,7 +7,7 @@
 
     <div class="flex items-center gap-2">
       <% if pagy.previous %>
-        <%= link_to "Previous",
+        <%= link_to t("shared.pagination.previous"),
               url_for(request.query_parameters.merge(page: pagy.previous)),
               class: "rounded-lg border border-slate-200 px-3 py-2 font-medium text-slate-600 hover:bg-slate-50" %>
       <% end %>
@@ -28,7 +28,7 @@
       <% end %>
 
       <% if pagy.next %>
-        <%= link_to "Next",
+        <%= link_to t("shared.pagination.next"),
               url_for(request.query_parameters.merge(page: pagy.next)),
               class: "rounded-lg border border-slate-200 px-3 py-2 font-medium text-slate-600 hover:bg-slate-50" %>
       <% end %>

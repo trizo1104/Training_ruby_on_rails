@@ -1,4 +1,4 @@
-<% @page_title = "Assignments" %>
+<% @page_title = t("assignments.index.page_title") %>
 <% @active_nav = "assignments" %>
 
 <div class="space-y-6">
@@ -15,7 +15,7 @@
         aria-expanded="false"
         class="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700"
       >
-        Export
+        <%= t("assignments.index.export") %>
 
         <svg
           viewBox="0 0 20 20"
@@ -39,19 +39,19 @@
         <%= link_to assignments_path(base_export_params.merge(format: :xlsx)),
                     class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden",
                     data: { turbo: false } do %>
-          Export Excel
+          <%= t("assignments.index.export_excel") %>
         <% end %>
 
         <%= link_to assignments_path(base_export_params.merge(format: :xml)),
                     class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden",
                     data: { turbo: false } do %>
-          Export XML
+          <%= t("assignments.index.export_xml") %>
         <% end %>
 
         <%= link_to assignments_path(base_export_params.merge(format: :pdf)),
                     class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden",
                     data: { turbo: false } do %>
-          Export PDF
+          <%= t("assignments.index.export_pdf") %>
         <% end %>
 
       </div>
@@ -60,24 +60,24 @@
 
   
 
-  <%= render "shared/page_header", title: "My assignments", description: "Browse your personal backlog and keep everything moving.", action_label: "Create assignment", action_path: new_assignment_path %>
+  <%= render "shared/page_header", title: t("assignments.index.title"), description: t("assignments.index.description"), action_label: t("assignments.index.create"), action_path: new_assignment_path %>
 
   <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
     <%= form_with url: assignments_path, method: :get, class: "flex flex-col gap-3 md:flex-row md:items-end" do |form| %>
       <div class="flex-1">
-        <%= form.label :search, "Search assignments", class: "mb-2 block text-sm font-medium text-slate-700" %>
-        <%= form.search_field :search, value: params[:search], placeholder: "Search content", class: "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white" %>
+        <%= form.label :search, t("assignments.index.search_label"), class: "mb-2 block text-sm font-medium text-slate-700" %>
+        <%= form.search_field :search, value: params[:search], placeholder: t("assignments.index.search_placeholder"), class: "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white" %>
       </div>
       <div>
-        <%= form.label :status, "Status", class: "mb-2 block text-sm font-medium text-slate-700" %>
-        <%= form.select :status, [["All", ""], ["Assigned", "assigned"], ["Finished", "finished"]], { selected: params[:status] }, class: "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white" %>
+        <%= form.label :status, t("common.labels.status"), class: "mb-2 block text-sm font-medium text-slate-700" %>
+        <%= form.select :status, [[t("common.labels.all"), ""], [t("common.labels.assigned"), "assigned"], [t("common.labels.finished"), "finished"]], { selected: params[:status] }, class: "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white" %>
       </div>
-      <%= form.submit "Filter", class: "rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-600" %>
+      <%= form.submit t("common.actions.filter"), class: "rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-600" %>
     <% end %>
   </div>
 
   <% if @assignments.empty? %>
-    <%= render "shared/empty_state", title: "No assignments yet", description: "Create your first assignment to start building your workspace.", action_label: "Create assignment", action_path: new_assignment_path %>
+    <%= render "shared/empty_state", title: t("assignments.index.empty_title"), description: t("assignments.index.empty_description"), action_label: t("assignments.index.create"), action_path: new_assignment_path %>
   <% else %>
     <div class="grid gap-4">
       <% @assignments.each do |assignment| %>
@@ -85,16 +85,16 @@
           <div class="flex min-w-0 items-start gap-4">
             <% if assignment.images.attached? %>
               <div class="shrink-0" data-image-lightbox-gallery>
-                <button type="button" class="block cursor-zoom-in rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" data-action="click->image-lightbox#open" data-image-lightbox-url="<%= url_for(assignment.images.first) %>" data-image-lightbox-alt="Assignment image">
-                  <%= image_tag assignment.images.first, class: "h-16 w-24 rounded-2xl object-cover", alt: "Assignment image", loading: "lazy" %>
+                <button type="button" class="block cursor-zoom-in rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" data-action="click->image-lightbox#open" data-image-lightbox-url="<%= url_for(assignment.images.first) %>" data-image-lightbox-alt="<%= t('assignments.form.image_alt') %>">
+                  <%= image_tag assignment.images.first, class: "h-16 w-24 rounded-2xl object-cover", alt: t("assignments.form.image_alt"), loading: "lazy" %>
                 </button>
                 <% assignment.images.drop(1).each do |image| %>
-                  <button type="button" class="hidden" data-action="click->image-lightbox#open" data-image-lightbox-url="<%= url_for(image) %>" data-image-lightbox-alt="Assignment image" aria-hidden="true" tabindex="-1"></button>
+                  <button type="button" class="hidden" data-action="click->image-lightbox#open" data-image-lightbox-url="<%= url_for(image) %>" data-image-lightbox-alt="<%= t('assignments.form.image_alt') %>" aria-hidden="true" tabindex="-1"></button>
                 <% end %>
               </div>
             <% else %>
               <div class="flex h-16 w-24 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
-                <span class="text-xs font-semibold">No image</span>
+                <span class="text-xs font-semibold"><%= t("assignments.index.no_image") %></span>
               </div>
             <% end %>
             <div class="min-w-0">
@@ -102,12 +102,12 @@
                 <h4 class="truncate text-lg font-semibold text-slate-900"><%= truncate(assignment.content, length: 70) %></h4>
                 <%= render "shared/status_badge", status: assignment.status %>
               </div>
-              <p class="mt-2 text-sm text-slate-500"><%= pluralize(assignment.images.size, "image") %> · Created <%= l(assignment.created_at, format: :short) %> · Updated <%= l(assignment.updated_at, format: :short) %></p>
+              <p class="mt-2 text-sm text-slate-500"><%= t("assignments.index.metadata", images: t("common.image_count", count: assignment.images.size), created_at: l(assignment.created_at, format: :short), updated_at: l(assignment.updated_at, format: :short)) %></p>
             </div>
           </div>
           <div class="flex gap-3 text-sm">
-            <%= link_to "View details", assignment_path(assignment), class: "font-semibold text-sky-600 hover:text-sky-700" %>
-            <%= link_to "Edit", edit_assignment_path(assignment), class: "font-semibold text-slate-600 hover:text-slate-900" %>
+            <%= link_to t("common.actions.view_details"), assignment_path(assignment), class: "font-semibold text-sky-600 hover:text-sky-700" %>
+            <%= link_to t("common.actions.edit"), edit_assignment_path(assignment), class: "font-semibold text-slate-600 hover:text-slate-900" %>
           </div>
         </article>
       <% end %>

@@ -1,14 +1,14 @@
-Assignment submitted successfully
+<%= t("mailers.assignment.submitted.heading") %>
 
-Hello <%= @user.full_name %>,
+<%= t("mailers.assignment.submitted.greeting", name: @user.full_name) %>
 
-Your assignment has been submitted successfully.
+<%= t("mailers.assignment.submitted.message") %>
 
-Assignment content:
+<%= t("mailers.assignment.submitted.content") %>:
 
 <%= @assignment.content %>
 
-Submitted images:
+<%= t("mailers.assignment.submitted.images") %>:
 <% @assignment.images.each do |image| %>
 - <%= image.filename.to_s %>
 <% end %>

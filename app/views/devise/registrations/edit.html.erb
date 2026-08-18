@@ -1,11 +1,11 @@
-<% @page_title = "Account settings" %>
-<% content_for :title, "Account settings" %>
+<% @page_title = t("devise_views.registrations.edit.page_title") %>
+<% content_for :title, t("devise_views.registrations.edit.page_title") %>
 
 <div class="space-y-6">
   <div class="text-center">
     <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-500 text-lg font-semibold text-white">TF</div>
-    <h2 class="mt-4 text-2xl font-semibold text-slate-900">Account settings</h2>
-    <p class="mt-2 text-sm text-slate-500">Keep your TaskFlow account details up to date.</p>
+    <h2 class="mt-4 text-2xl font-semibold text-slate-900"><%= t("devise_views.registrations.edit.title") %></h2>
+    <p class="mt-2 text-sm text-slate-500"><%= t("devise_views.registrations.edit.description") %></p>
   </div>
 
   <%= render "shared/form_errors", resource: resource %>
@@ -44,7 +44,7 @@
 
     <div class="grid gap-4 md:grid-cols-2">
       <div>
-        <%= f.label :password, "New password", class: "mb-2 block text-sm font-medium text-slate-700" %>
+        <%= f.label :password, t("devise_views.registrations.edit.new_password"), class: "mb-2 block text-sm font-medium text-slate-700" %>
         <%= f.password_field :password, autocomplete: "new-password", class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-500/20" %>
       </div>
       <div>
@@ -53,6 +53,6 @@
       </div>
     </div>
 
-    <%= f.submit "Save settings", class: "inline-flex w-full items-center justify-center rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" %>
+    <%= f.submit t("devise_views.registrations.edit.submit"), class: "inline-flex w-full items-center justify-center rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" %>
   <% end %>
 </div>

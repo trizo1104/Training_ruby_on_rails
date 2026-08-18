@@ -23,16 +23,16 @@ class Assignment < ApplicationRecord
 
   def validate_uploaded_images(files)
     files = Array(files).compact_blank
-    errors.add(:images, "You can upload at most 10 images") if images.attachments.size + files.size > MAX_IMAGE_COUNT
+    errors.add(:images, :too_many) if images.attachments.size + files.size > MAX_IMAGE_COUNT
 
     files.each do |file|
       unless file.respond_to?(:content_type) && file.respond_to?(:size)
-        errors.add(:images, "must be JPEG, PNG, or WebP files")
+        errors.add(:images, :invalid_type)
         next
       end
 
-      errors.add(:images, "must be JPEG, PNG, or WebP files") unless ALLOWED_IMAGE_TYPES.include?(file.content_type)
-      errors.add(:images, "each image must be smaller than 10 MB") if file.size.to_i > MAX_IMAGE_SIZE
+      errors.add(:images, :invalid_type) unless ALLOWED_IMAGE_TYPES.include?(file.content_type)
+      errors.add(:images, :too_large) if file.size.to_i > MAX_IMAGE_SIZE
     end
   end
 
@@ -42,15 +42,15 @@ class Assignment < ApplicationRecord
     return unless images.attached?
 
     if images.attachments.size > MAX_IMAGE_COUNT
-      errors.add(:images, "You can upload at most 10 images")
+      errors.add(:images, :too_many)
     end
 
     images.each do |image|
       unless ALLOWED_IMAGE_TYPES.include?(image.blob.content_type)
-        errors.add(:images, "must be JPEG, PNG, or WebP files")
+        errors.add(:images, :invalid_type)
       end
 
-      errors.add(:images, "each image must be smaller than 10 MB") if image.blob.byte_size > MAX_IMAGE_SIZE
+      errors.add(:images, :too_large) if image.blob.byte_size > MAX_IMAGE_SIZE
     end
   end
 end

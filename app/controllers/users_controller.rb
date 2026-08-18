@@ -3,13 +3,13 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @page_title = "Profile"
+    @page_title = t("users.show.page_title")
     @active_nav = "profile"
   end
 
   def edit
     @user = current_user
-    @page_title = "Edit profile"
+    @page_title = t("users.edit.page_title")
     @active_nav = "profile"
   end
 
@@ -17,9 +17,9 @@ class UsersController < ApplicationController
     @user = current_user
 
     if @user.update(profile_params)
-      redirect_to profile_path, notice: "Profile updated successfully."
+      redirect_to profile_path, notice: t("flash.users.updated")
     else
-      @page_title = "Edit profile"
+      @page_title = t("users.edit.page_title")
       @active_nav = "profile"
       render :edit, status: :unprocessable_entity
     end

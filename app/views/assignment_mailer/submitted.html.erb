@@ -1,18 +1,18 @@
-<h1>Assignment submitted successfully</h1>
+<h1><%= t("mailers.assignment.submitted.heading") %></h1>
 
 <p>
-  Hello <%= @user.full_name %>,
+  <%= t("mailers.assignment.submitted.greeting", name: @user.full_name) %>
 </p>
 
 <p>
-  Your assignment has been submitted successfully.
+  <%= t("mailers.assignment.submitted.message") %>
 </p>
 
-<h2>Assignment content</h2>
+<h2><%= t("mailers.assignment.submitted.content") %></h2>
 
 <%= simple_format(@assignment.content) %>
 
-<h2>Submitted images</h2>
+<h2><%= t("mailers.assignment.submitted.images") %></h2>
 
 <% @assignment.images.each do |image| %>
   <p>

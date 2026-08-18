@@ -1,31 +1,248 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  language:
+    en: "English"
+    vi: "Vietnamese"
+    ja: "Japanese"
+    switcher: "Language"
+  app:
+    name: "TaskFlow"
+    workspace: "Personal assignment workspace"
+  pwa:
+    name: "TaskFlow"
+    description: "Personal assignment workspace."
+  common:
+    actions:
+      back: "Back"
+      cancel: "Cancel"
+      create: "Create"
+      delete: "Delete"
+      edit: "Edit"
+      filter: "Filter"
+      remove: "Remove"
+      save: "Save"
+      update: "Update"
+      view_details: "View details"
+    labels:
+      all: "All"
+      assigned: "Assigned"
+      content: "Content"
+      created: "Created"
+      created_at: "Created at"
+      department: "Department"
+      email: "Email"
+      finished: "Finished"
+      images: "Images"
+      owner: "Owner"
+      status: "Status"
+      updated: "Updated"
+      username: "Username"
+      user: "User"
+    image: "image"
+    image_count:
+      one: "%{count} image"
+      other: "%{count} images"
+    assignment_count:
+      one: "%{count} assignment"
+      other: "%{count} assignments"
+  layouts:
+    application:
+      default_title: "TaskFlow"
+      workspace: "Workspace"
+    errors:
+      default_title: "Page not found - TaskFlow"
+  shared:
+    avatar:
+      alt: "Avatar for %{name}"
+      default_name: "User"
+    flash:
+      dismiss: "Dismiss notification"
+    image_lightbox:
+      close: "Close image viewer"
+      next: "Next image"
+      previous: "Previous image"
+    navigation:
+      mobile: "Mobile navigation"
+      open_menu: "Open navigation menu"
+      profile: "Profile"
+      sidebar: "Sidebar navigation"
+      my_assignments: "My assignments"
+      sign_out: "Sign out"
+    pagination:
+      label: "Pagination"
+      next: "Next"
+      previous: "Previous"
+    form_errors:
+      one: "1 error prevented this form from being saved."
+      other: "%{count} errors prevented this form from being saved."
+  assignments:
+    index:
+      page_title: "Assignments"
+      export: "Export"
+      export_excel: "Export Excel"
+      export_xml: "Export XML"
+      export_pdf: "Export PDF"
+      title: "My assignments"
+      description: "Browse your personal backlog and keep everything moving."
+      create: "Create assignment"
+      search_label: "Search assignments"
+      search_placeholder: "Search content"
+      empty_title: "No assignments yet"
+      empty_description: "Create your first assignment to start building your workspace."
+      no_image: "No image"
+      metadata: "%{images} · Created %{created_at} · Updated %{updated_at}"
+    new:
+      page_title: "Create assignment"
+      title: "Create a new assignment"
+      description: "Add the assignment details and any images needed to mark it finished."
+    edit:
+      page_title: "Edit assignment"
+      title: "Edit assignment"
+      description: "Update the content or add and remove assignment images."
+    show:
+      page_title: "Assignment details"
+      title: "Assignment details"
+      description: "Review the assignment content and attached materials."
+      assignment_content: "Assignment content"
+      attached_images: "Attached images"
+      no_images: "No images are attached yet."
+      no_images_alt: "No assignment images"
+      delete: "Delete assignment"
+      delete_confirm: "Delete this assignment?"
+    form:
+      content: "Assignment content"
+      content_placeholder: "Describe the assignment and expected outcome."
+      images: "Assignment images"
+      image_hint: "Optional JPEG, PNG, or WebP files up to 10 MB each."
+      images_finish: "Images make an assignment Finished"
+      existing_images: "Existing images"
+      image_alt: "Assignment image"
+      remove_confirm: "Remove this image?"
+      dropzone: "Drop images here or choose files"
+      select_limit: "You can select up to 10 images."
+      current_status: "Current status"
+      status_hint: "No images means Assigned; one or more images means Finished."
+      save: "Save assignment"
+      update: "Update assignment"
+    export:
+      xlsx_sheet: "Assignments"
+      xlsx_title: "MY ASSIGNMENTS REPORT"
+      generated_by: "Generated by"
+      generated_at: "Generated at"
+      number: "No."
+      pdf_title: "Assignments"
+      pdf_assignment: "Assignment #%{id}"
+      no_image: "No image"
+      page: "Page %{page} of %{total}"
+  users:
+    show:
+      page_title: "Profile"
+      title: "Profile overview"
+      description: "Your personal details and workspace information."
+      edit: "Edit profile"
+      about: "About"
+      joined: "Joined"
+    edit:
+      page_title: "Edit profile"
+      title: "Edit profile"
+      description: "Update the details shown in your workspace."
+      avatar: "Profile avatar"
+      avatar_dropzone: "Drop an image or choose a file"
+      avatar_hint: "JPEG, PNG, or WebP up to 5 MB."
+      save: "Save changes"
+  devise_views:
+    sessions:
+      page_title: "Sign in"
+      title: "Welcome back"
+      description: "Sign in to continue to TaskFlow."
+      remember_me: "Remember me"
+      forgot_password: "Forgot password?"
+      submit: "Sign in"
+      no_account: "Don't have an account?"
+      create_one: "Create one"
+      email_placeholder: "you@example.com"
+    registrations:
+      new:
+        page_title: "Create account"
+        title: "Create your account"
+        description: "Join TaskFlow to keep your assignments organized."
+        submit: "Create account"
+        placeholders:
+          username: "alex"
+          first_name: "Alex"
+          last_name: "Johnson"
+          email: "you@example.com"
+          department: "Engineering"
+      edit:
+        page_title: "Account settings"
+        title: "Account settings"
+        description: "Keep your TaskFlow account details up to date."
+        new_password: "New password"
+        submit: "Save settings"
+    passwords:
+      new:
+        page_title: "Forgot password"
+        title: "Reset your password"
+        description: "Enter your email address and we will send reset instructions."
+        submit: "Send reset instructions"
+        sign_in: "Back to sign in"
+      edit:
+        page_title: "Change password"
+        title: "Choose a new password"
+        submit: "Change my password"
+  errors:
+    not_found:
+      title: "Page not found"
+      description: "The page you are looking for does not exist or may have been moved."
+      back: "Back to TaskFlow"
+  flash:
+    assignments:
+      created: "Assignment created successfully."
+      updated: "Assignment updated successfully."
+      deleted: "Assignment deleted successfully."
+      image_removed: "Image removed successfully."
+    users:
+      updated: "Profile updated successfully."
+  mailers:
+    assignment:
+      submitted:
+        subject: "Assignment submitted successfully"
+        heading: "Assignment submitted successfully"
+        greeting: "Hello %{name},"
+        message: "Your assignment has been submitted successfully."
+        content: "Assignment content"
+        images: "Submitted images"
+  activerecord:
+    attributes:
+      assignment:
+        content: "Assignment content"
+        images: "Images"
+      user:
+        avatar: "Avatar"
+        current_password: "Current password"
+        department: "Department"
+        email: "Email"
+        first_name: "First name"
+        last_name: "Last name"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+        username: "Username"
+    errors:
+      models:
+        assignment:
+          attributes:
+            images:
+              too_many: "You can upload at most 10 images"
+              invalid_type: "must be JPEG, PNG, or WebP files"
+              too_large: "each image must be smaller than 10 MB"
+        user:
+          attributes:
+            avatar:
+              invalid_type: "must be a JPEG, PNG, or WebP image"
+              too_large: "must be smaller than 5 MB"
+  date:
+    formats:
+      long: "%B %-d, %Y"
+  time:
+    formats:
+      short: "%b %-d, %Y %H:%M"
+      long: "%B %-d, %Y at %H:%M"

@@ -49,4 +49,13 @@ class UiPagesTest < ActionDispatch::IntegrationTest
     assert_response :not_found
     assert_select "h1", text: "Page not found"
   end
+
+  test "language selection renders Vietnamese application text" do
+    patch locale_path, params: { locale: :vi }
+    get assignments_path
+
+    assert_response :success
+    assert_includes response.body, "Bài tập của tôi"
+    assert_includes response.body, "Đăng xuất"
+  end
 end

@@ -1,5 +1,5 @@
 <% user = local_assigns[:user]
-name ||= user&.full_name || "User"
+name ||= user&.full_name || t("shared.avatar.default_name")
 avatar = local_assigns.key?(:avatar) ? avatar : user&.avatar
 size_class = case local_assigns.fetch(:size, "md")
   when "sm" then "h-9 w-9 text-sm"
@@ -9,7 +9,7 @@ size_class = case local_assigns.fetch(:size, "md")
   end %>
 <div class="<%= size_class %> overflow-hidden rounded-full border border-slate-200 bg-slate-100 text-center font-semibold text-slate-700 shadow-sm">
   <% if avatar&.attached? %>
-    <%= image_tag avatar, class: "h-full w-full object-cover", alt: "Avatar for #{name}" %>
+    <%= image_tag avatar, class: "h-full w-full object-cover", alt: t("shared.avatar.alt", name: name) %>
   <% else %>
     <% initials = name.to_s.split.filter_map { |part| part[0] }.join.first(2).upcase.presence || "U" %>
     <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-sky-100 to-cyan-100 text-slate-700"><%= initials %></div>

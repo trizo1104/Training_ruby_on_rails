@@ -3,7 +3,7 @@ class AssignmentsController < ApplicationController
   before_action :set_assignment, only: %i[show edit update destroy remove_image]
 
   def index
-    @page_title = "Assignments"
+    @page_title = t("assignments.index.page_title")
     @active_nav = "assignments"
     scope = current_user.assignments.with_attached_images.order(created_at: :desc)
     scope = scope.where("content ILIKE ?", "%#{Assignment.sanitize_sql_like(params[:search])}%") if params[:search].present?
@@ -13,7 +13,7 @@ class AssignmentsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @pagy, @assignments = pagy(:offset, scope, limit: 4)
+        @pagy, @assignments = pagy(:offset, scope, limit: 5)
       end
 
       format.xlsx do
@@ -64,18 +64,18 @@ class AssignmentsController < ApplicationController
   end
 
   def show
-    @page_title = "Assignment details"
+    @page_title = t("assignments.show.page_title")
     @active_nav = "assignments"
   end
 
   def new
     @assignment = current_user.assignments.new
-    @page_title = "Create assignment"
+    @page_title = t("assignments.new.page_title")
     @active_nav = "create"
   end
 
   def edit
-    @page_title = "Edit assignment"
+    @page_title = t("assignments.edit.page_title")
     @active_nav = "create"
   end
 
@@ -90,7 +90,7 @@ class AssignmentsController < ApplicationController
       AssignmentMailer.submitted(@assignment).deliver_later
     end
 
-    redirect_to @assignment, notice: "Assignment created successfully."
+    redirect_to @assignment, notice: t("flash.assignments.created")
     else
       prepare_form
       render :new, status: :unprocessable_entity
@@ -107,7 +107,7 @@ class AssignmentsController < ApplicationController
         AssignmentMailer.submitted(@assignment).deliver_later # deliver_later - send email in background, deliver_now - send email immediately
       end
 
-      redirect_to @assignment, notice: "Assignment updated successfully."
+      redirect_to @assignment, notice: t("flash.assignments.updated")
     else
       prepare_form
       render :edit, status: :unprocessable_entity
@@ -116,7 +116,7 @@ class AssignmentsController < ApplicationController
 
   def destroy
     @assignment.destroy
-    redirect_to assignments_path, notice: "Assignment deleted successfully."
+    redirect_to assignments_path, notice: t("flash.assignments.deleted")
   end
 
   def remove_image
@@ -124,7 +124,7 @@ class AssignmentsController < ApplicationController
     attachment.purge
     @assignment.images.reload
     @assignment.sync_status_with_images!
-    redirect_to edit_assignment_path(@assignment), notice: "Image removed successfully."
+    redirect_to edit_assignment_path(@assignment), notice: t("flash.assignments.image_removed")
   end
 
   private
@@ -158,7 +158,7 @@ class AssignmentsController < ApplicationController
   end
 
   def prepare_form
-    @page_title = @assignment.new_record? ? "Create assignment" : "Edit assignment"
+    @page_title = @assignment.new_record? ? t("assignments.new.page_title") : t("assignments.edit.page_title")
     @active_nav = "create"
   end
 end

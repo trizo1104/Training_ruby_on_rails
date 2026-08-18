@@ -1,9 +1,9 @@
-<% content_for :title, "Page not found - TaskFlow" %>
+<% content_for :title, t("layouts.errors.default_title") %>
 
 <div>
   <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-500 text-lg font-semibold text-white">TF</div>
   <p class="mt-8 text-7xl font-bold tracking-tight text-sky-500">404</p>
-  <h1 class="mt-4 text-2xl font-semibold tracking-tight text-slate-900">Page not found</h1>
-  <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-500">The page you are looking for does not exist or may have been moved.</p>
-  <%= link_to "Back to TaskFlow", root_path, class: "mt-8 inline-flex items-center justify-center rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" %>
+  <h1 class="mt-4 text-2xl font-semibold tracking-tight text-slate-900"><%= t("errors.not_found.title") %></h1>
+  <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-500"><%= t("errors.not_found.description") %></p>
+  <%= link_to t("errors.not_found.back"), root_path, class: "mt-8 inline-flex items-center justify-center rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" %>
 </div>

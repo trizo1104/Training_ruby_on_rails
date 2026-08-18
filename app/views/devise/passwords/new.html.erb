@@ -1,0 +1,19 @@
+<% @page_title = t("devise_views.passwords.new.page_title") %>
+<% content_for :title, t("devise_views.passwords.new.page_title") %>
+
+<div class="space-y-6">
+  <div class="text-center">
+    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-500 text-lg font-semibold text-white">TF</div>
+    <h2 class="mt-4 text-2xl font-semibold text-slate-900"><%= t("devise_views.passwords.new.title") %></h2>
+    <p class="mt-2 text-sm text-slate-500"><%= t("devise_views.passwords.new.description") %></p>
+  </div>
+  <%= render "shared/form_errors", resource: resource %>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+    <div>
+      <%= f.label :email, class: "mb-2 block text-sm font-medium text-slate-700" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm" %>
+    </div>
+    <%= f.submit t("devise_views.passwords.new.submit"), class: "inline-flex w-full justify-center rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white" %>
+  <% end %>
+  <%= link_to t("devise_views.passwords.new.sign_in"), new_user_session_path, class: "block text-center text-sm font-medium text-sky-600" %>
+</div>
