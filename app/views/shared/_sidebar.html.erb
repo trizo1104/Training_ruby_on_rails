@@ -13,4 +13,22 @@
       <span><%= t("shared.navigation.my_assignments") %></span>
     <% end %>
   </nav>
+
+  <% if current_user.has_permission?("user", "create") %>
+    <nav class="mt-2 space-y-1" aria-label="<%= t('shared.navigation.sidebar') %>">
+      <%= link_to users_path, class: ["flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition", local_assigns.fetch(:active_nav, "users") == "users" ? "bg-sky-50 text-sky-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"].join(" ") do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span><%= t("shared.navigation.user") %></span>
+      <% end %>
+    </nav>
+  <% end %>
+
+  <% if current_user.has_permission?("company", "create") %>
+    <nav class="mt-2 space-y-1" aria-label="<%= t('shared.navigation.sidebar') %>">
+      <%= link_to companies_path, class: ["flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition", local_assigns.fetch(:active_nav, "companies") == "companies" ? "bg-sky-50 text-sky-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"].join(" ") do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2-icon lucide-building-2"><path d="M10 12h4"/><path d="M10 8h4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/></svg>
+        <span><%= t("shared.navigation.company") %></span>
+      <% end %>
+    </nav>
+  <% end %>
 </aside>

@@ -7,12 +7,34 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_many :assignments, dependent: :destroy
 
+  belongs_to :company, optional: true
+
+  belongs_to :manager,
+            class_name: "User",
+            optional: true
+
+  has_many :employees,
+          class_name: "User",
+          foreign_key: :manager_id,
+          dependent: :nullify
+
+  has_many :user_roles, dependent: :destroy
+  has_many :roles, through: :user_roles
+  has_many :permissions, through: :roles
+
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :first_name, :last_name, :department, presence: true
   validate :avatar_is_valid
 
   def full_name
     "#{first_name} #{last_name}".strip
+  end
+
+  def has_permission?(resource, action)
+    permissions.exists?(
+      resource: resource,
+      action: action
+      )
   end
 
   private

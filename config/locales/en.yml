@@ -66,6 +66,8 @@ en:
       profile: "Profile"
       sidebar: "Sidebar navigation"
       my_assignments: "My assignments"
+      user: "User"
+      company: "Company"
       sign_out: "Sign out"
     pagination:
       label: "Pagination"

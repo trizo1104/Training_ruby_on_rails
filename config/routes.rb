@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "companies/index"
   # root "assignments#index"
   root "home#index"
 
@@ -13,6 +14,10 @@ Rails.application.routes.draw do
     resources :assignments do
       delete "images/:attachment_id", to: "assignments#remove_image", as: :image
     end
+
+    resources :users
+
+    resources :companies
 
     get "up" => "rails/health#show", as: :rails_health_check
 

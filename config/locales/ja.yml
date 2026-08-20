@@ -79,6 +79,8 @@ ja:
       profile: "プロフィール"
       sidebar: "サイドバーナビゲーション"
       my_assignments: "自分の課題"
+      user: "ユーザー"
+      company: "会社"
       sign_out: "ログアウト"
 
     pagination:

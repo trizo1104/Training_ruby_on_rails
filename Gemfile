@@ -140,3 +140,5 @@ group :test do
   # Control browser during system tests
   gem "selenium-webdriver"
 end
+
+gem "pundit", "~> 2.5"

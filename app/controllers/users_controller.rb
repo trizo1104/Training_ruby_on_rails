@@ -1,5 +1,12 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
+
+  def index
+    @page_title = t("users.index.page_title")
+    @active_nav = "users"
+
+    @users = policy_scope(User)
+  end
 
   def show
     @user = current_user

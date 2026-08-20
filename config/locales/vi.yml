@@ -66,6 +66,8 @@ vi:
       profile: "Hồ sơ"
       sidebar: "Điều hướng thanh bên"
       my_assignments: "Bài tập của tôi"
+      user: "Người dùng"
+      company: "Công ty"
       sign_out: "Đăng xuất"
     pagination:
       label: "Phân trang"
