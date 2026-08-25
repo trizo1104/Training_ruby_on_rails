@@ -2,15 +2,15 @@ class AssignmentsController < ApplicationController
   # before_action :authenticate_user!
   before_action :set_assignment, only: %i[show edit update destroy remove_image]
 
-  self.required_permissions = {
-    index:   [ "assignment", "read" ],
-    show:    [ "assignment", "read" ],
-    new:     [ "assignment", "create" ],
-    create:  [ "assignment", "create" ],
-    edit:    [ "assignment", "update" ],
-    update:  [ "assignment", "update" ],
-    destroy: [ "assignment", "delete" ]
-  }
+  # self.required_permissions = {
+  #   index:   [ "assignment", "read" ],
+  #   show:    [ "assignment", "read" ],
+  #   new:     [ "assignment", "create" ],
+  #   create:  [ "assignment", "create" ],
+  #   edit:    [ "assignment", "update" ],
+  #   update:  [ "assignment", "update" ],
+  #   destroy: [ "assignment", "delete" ]
+  # }
 
   def index
     @page_title = t("assignments.index.page_title")
@@ -23,7 +23,7 @@ class AssignmentsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @pagy, @assignments = pagy(:offset, scope, limit: 5)
+        @pagy, @assignments = pagy(:offset, scope, limit: 4)
       end
 
       format.xlsx do

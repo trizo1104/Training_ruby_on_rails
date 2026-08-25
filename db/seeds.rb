@@ -7,17 +7,17 @@
 
 permissions = [
   [ "company", "create" ],
-  [ "company", "view" ],
+  [ "company", "read" ],
   [ "company", "update" ],
   [ "company", "delete" ],
 
   [ "user", "create" ],
-  [ "user", "view" ],
+  [ "user", "read" ],
   [ "user", "update" ],
   [ "user", "delete" ],
 
   [ "assignment", "create" ],
-  [ "assignment", "view" ],
+  [ "assignment", "read" ],
   [ "assignment", "update" ],
   [ "assignment", "delete" ]
 ]

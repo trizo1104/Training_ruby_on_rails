@@ -158,6 +158,15 @@ ja:
       page: "%{page} / %{total}ページ"
 
   users:
+    index:
+      page_title: "ユーザー"
+      title: "ユーザー一覧"
+      description: "ワークスペースのユーザーを確認できます。"
+      empty_title: "ユーザーはまだいません"
+      empty_description: "ワークスペースにユーザーがまだいません。"
+      search_label: "ユーザーを探す"
+      search_placeholder: "内容を検索"
+      metadata: "%{role} · %{department} · %{company}-%{address}"
     show:
       page_title: "プロフィール"
       title: "プロフィール概要"
@@ -165,7 +174,6 @@ ja:
       edit: "プロフィールを編集"
       about: "基本情報"
       joined: "登録日"
-
     edit:
       page_title: "プロフィールを編集"
       title: "プロフィールを編集"
@@ -174,7 +182,16 @@ ja:
       avatar_dropzone: "ここに画像をドロップするか、ファイルを選択してください"
       avatar_hint: "JPEG、PNG、WebP形式。最大5 MB。"
       save: "変更を保存"
-
+  companies:
+    index:
+      page_title: "会社"
+      title: "会社一覧"
+      description: "ワークスペース内の会社一覧を表示します。"
+      empty_title: "会社がありません"
+      empty_description: "ワークスペースにはまだ会社が登録されていません。"
+      search_label: "会社を検索"
+      search_placeholder: "会社を検索"
+      metadata: "作成: %{created_at} · 更新: %{updated_at}"
   devise_views:
     sessions:
       page_title: "ログイン"

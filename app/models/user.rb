@@ -37,6 +37,10 @@ class User < ApplicationRecord
       )
   end
 
+  def has_role?(role_name)
+    roles.exists?(name: role_name)
+  end
+
   private
 
   def avatar_is_valid

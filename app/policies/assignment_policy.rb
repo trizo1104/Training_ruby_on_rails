@@ -20,7 +20,7 @@ class AssignmentPolicy < ApplicationPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if user.has_permission?("assignment", "view_all")
+      if user.has_permission?("assignment", "read_all")
         scope.all
       elsif user.has_permission?("assignment", "view")
         scope.where(user_id: user.id)

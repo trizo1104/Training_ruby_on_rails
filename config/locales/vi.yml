@@ -136,6 +136,15 @@ vi:
       no_image: "Không có ảnh"
       page: "Trang %{page} / %{total}"
   users:
+    index:
+      page_title: "Người dùng"
+      title: "Danh sách người dùng"
+      description: "Xem danh sách người dùng trong không gian làm việc của bạn."
+      empty_title: "Chưa có người dùng"
+      empty_description: "Chưa có người dùng nào trong không gian làm việc của bạn."
+      search_label: "Tìm người dùng"
+      search_placeholder: "Tìm kiếm nội dung"
+      metadata: "%{role} · %{department} · %{company}-%{address}"
     show:
       page_title: "Hồ sơ"
       title: "Tổng quan hồ sơ"
@@ -151,6 +160,16 @@ vi:
       avatar_dropzone: "Thả ảnh vào đây hoặc chọn tệp"
       avatar_hint: "JPEG, PNG hoặc WebP, tối đa 5 MB."
       save: "Lưu thay đổi"
+  companies:
+    index:
+      page_title: "Công Ty"
+      title: "Danh sách công ty"
+      description: "Xem danh sách các công ty trong không gian làm việc của bạn."
+      empty_title: "Chưa có công ty"
+      empty_description: "Chưa có công ty nào trong không gian làm việc của bạn."
+      search_label: "Tìm công ty"
+      search_placeholder: "Tìm kiếm công ty"
+      metadata: "Tạo: %{created_at} · Cập nhật: %{updated_at}"
   devise_views:
     sessions:
       page_title: "Đăng nhập"

@@ -136,6 +136,15 @@ en:
       no_image: "No image"
       page: "Page %{page} of %{total}"
   users:
+    index:
+      page_title: "Users"
+      title: "User list"
+      description: "Browse the users in your workspace."
+      empty_title: "No users yet"
+      empty_description: "There are no users in your workspace yet."
+      search_label: "Search users"
+      search_placeholder: "Search content"
+      metadata: "%{role} · %{department} · %{company}-%{address}"
     show:
       page_title: "Profile"
       title: "Profile overview"
@@ -151,6 +160,16 @@ en:
       avatar_dropzone: "Drop an image or choose a file"
       avatar_hint: "JPEG, PNG, or WebP up to 5 MB."
       save: "Save changes"
+  companies:
+    index:
+      page_title: "Company"
+      title: "Company List"
+      description: "View the list of companies in your workspace."
+      empty_title: "No companies yet"
+      empty_description: "There are no companies in your workspace yet."
+      search_label: "Search companies"
+      search_placeholder: "Search companies"
+      metadata: "Created: %{created_at} · Updated: %{updated_at}"
   devise_views:
     sessions:
       page_title: "Sign in"
