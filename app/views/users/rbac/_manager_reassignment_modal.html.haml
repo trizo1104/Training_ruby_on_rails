@@ -1,0 +1,53 @@
+%div{
+  class: "fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/40 p-4",
+  data: { controller: "manager-reassignment", manager_reassignment_conflicts_value: (@manager_conflicts || []).to_json }
+}
+  .w-full.max-w-lg.rounded-3xl.bg-white.shadow-xl
+    = form_with url: admin_rbac_reassign_manager_path,
+                method: :post,
+                data: { manager_reassignment_target: "form" } do |form|
+
+      .p-6
+        .flex.items-start.justify-between.gap-4
+          .flex.items-start.gap-4
+            .flex.h-11.w-11.items-center.justify-center.rounded-2xl.bg-amber-100.text-amber-600
+              !
+
+            .min-w-0
+              %h3.text-lg.font-semibold.text-slate-900{ data: { manager_reassignment_target: "title" } }
+                Manager reassignment required
+
+              %p.mt-2.text-sm.leading-6.text-slate-500{ data: { manager_reassignment_target: "message" } }
+
+          %button.text-slate-400.hover:text-slate-600{
+            type: "button",
+            data: { action: "manager-reassignment#close" }
+          }
+            ×
+
+        .mt-6
+          = form.label :replacement_manager_id,
+                       "New manager",
+                       class: "block text-sm font-medium text-slate-700"
+
+          = form.select :replacement_manager_id,
+                        [],
+                        {},
+                        class: "mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white",
+                        data: { manager_reassignment_target: "select" }
+
+        = form.hidden_field :user_id,
+                            data: { manager_reassignment_target: "userId" }
+
+        .mt-6.flex.justify-end.gap-3
+          %button.rounded-xl.border.border-slate-200.bg-white.px-4.py-2.text-sm.font-semibold.text-slate-700.hover:bg-slate-50{
+            type: "button",
+            data: { action: "manager-reassignment#close" }
+          }
+            Cancel
+
+          %button.rounded-xl.bg-sky-600.px-4.py-2.text-sm.font-semibold.text-white.hover:bg-sky-700{
+            type: "button",
+            data: { action: "manager-reassignment#confirm" }
+          }
+            Confirm

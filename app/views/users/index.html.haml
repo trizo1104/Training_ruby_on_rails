@@ -35,8 +35,10 @@
 
   - else
     - if current_user.has_role?("Admin")
-      = render "admin_table"
+      = render "users/admin_table"
     - else
-      = render "manager_table"
+      = render "users/manager_table"
+
+  = render "users/rbac/manager_reassignment_modal"
 
   = render "shared/pagination", pagy: @pagy

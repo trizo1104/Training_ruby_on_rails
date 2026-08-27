@@ -23,12 +23,18 @@ Rails.application.routes.draw do
       end
     end
 
-    namespace :admin do
-      # get "rbac", to: "rbac#show", as: :rbac
-      patch "rbac", to: "rbac#update"
-      put "rbac", to: "rbac#update"
-      post "rbac/roles", to: "rbac#create_role", as: :rbac_roles
-    end
+  namespace :admin do
+    patch "rbac", to: "rbac#update"
+    put "rbac", to: "rbac#update"
+
+    post "rbac/reassign_manager",
+        to: "rbac#reassign_manager",
+        as: :rbac_reassign_manager
+
+    post "rbac/roles",
+        to: "rbac#create_role",
+        as: :rbac_roles
+  end
 
     resources :companies, only: %i[index new create]
 
