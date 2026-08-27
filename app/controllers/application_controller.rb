@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
+  include Pundit::Authorization
   include Pagy::Method
+
+  before_action :authenticate_user!
 
   around_action :switch_locale
 
@@ -24,6 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def switch_locale(&action)
     locale = params[:locale] || I18n.default_locale
 

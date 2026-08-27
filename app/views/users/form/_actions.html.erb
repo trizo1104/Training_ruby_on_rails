@@ -1,0 +1,15 @@
+<div class="flex flex-wrap gap-3 border-t border-slate-200 pt-6">
+
+  <%= form.submit(
+        @user.new_record? ?
+          t("common.actions.create") :
+          t("common.actions.save"),
+        class: "rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-600"
+      ) %>
+
+
+  <%= link_to t("common.actions.cancel"),
+              @user.new_record? ? users_path : user_path(@user),
+              class: "rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50" %>
+
+</div>

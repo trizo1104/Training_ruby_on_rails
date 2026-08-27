@@ -1,0 +1,64 @@
+<div class="grid gap-4 md:grid-cols-2">
+
+  <!-- Email -->
+  <div>
+    <%= form.label :email,
+                   t("common.labels.email"),
+                   class: "mb-2 block text-sm font-medium text-slate-700" %>
+
+    <%= form.email_field :email,
+                         required: true,
+                         class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-sky-500 focus:bg-white" %>
+  </div>
+
+
+  <!-- Username -->
+  <div>
+    <%= form.label :username,
+                   t("common.labels.username"),
+                   class: "mb-2 block text-sm font-medium text-slate-700" %>
+
+    <%= form.text_field :username,
+                        required: true,
+                        class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-sky-500 focus:bg-white" %>
+  </div>
+
+
+  <!-- First name -->
+  <div>
+    <%= form.label :first_name,
+                   t("common.labels.first_name"),
+                   class: "mb-2 block text-sm font-medium text-slate-700" %>
+
+    <%= form.text_field :first_name,
+                        required: true,
+                        class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-sky-500 focus:bg-white" %>
+  </div>
+
+
+  <!-- Last name -->
+  <div>
+    <%= form.label :last_name,
+                   t("common.labels.last_name"),
+                   class: "mb-2 block text-sm font-medium text-slate-700" %>
+
+    <%= form.text_field :last_name,
+                        required: true,
+                        class: "w-full rounded-2xl border border-slate-200 bg-slate-50 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-sky-500 focus:bg-white" %>
+  </div>
+
+
+  <!-- Department -->
+  <div class="md:col-span-2">
+
+    <%= form.label :department,
+                   t("common.labels.department"),
+                   class: "mb-2 block text-sm font-medium text-slate-700" %>
+
+    <%= form.text_field :department,
+                        required: true,
+                        class: "w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-sky-500 focus:bg-white" %>
+
+  </div>
+
+</div>

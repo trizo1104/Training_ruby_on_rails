@@ -1,5 +1,5 @@
 class AssignmentsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :set_assignment, only: %i[show edit update destroy remove_image]
 
   def index
@@ -13,7 +13,7 @@ class AssignmentsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @pagy, @assignments = pagy(:offset, scope, limit: 5)
+        @pagy, @assignments = pagy(:offset, scope, limit: 4)
       end
 
       format.xlsx do

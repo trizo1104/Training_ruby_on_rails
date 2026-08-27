@@ -1,0 +1,83 @@
+<div
+  class="rounded-3xl border border-slate-200 bg-slate-50 p-5"
+  data-controller="company-manager"
+  data-company-manager-managers-url-value="<%= managers_users_path %>" <%# Rial will generate the url base on routes %>
+>
+  <h3 class="mb-4 text-lg font-semibold text-slate-900">
+    <%= t("users.form.organization") %>
+  </h3>
+
+  <div class="grid gap-4 md:grid-cols-2">
+
+    <!-- Role -->
+    <div>
+      <%= form.label :role_id,
+                     t("users.form.role"),
+                     class: "mb-2 block text-sm font-medium text-slate-700" %>
+
+      <%= select_tag "user[role_id]",
+                     options_from_collection_for_select(
+                       @roles,
+                       :id,
+                       :name,
+                       params.dig(:user, :role_id)
+                     ),
+                     prompt: t("users.form.select_role"),
+                     class: "w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-sky-500",
+                     data: {
+                       company_manager_target: "role",
+                       action: "change->company-manager#roleChanged"
+                     } %>
+    </div>
+
+
+    <!-- Company -->
+    <div>
+      <%= form.label :company_id,
+                     t("users.form.company"),
+                     class: "mb-2 block text-sm font-medium text-slate-700" %>
+
+      <%= form.collection_select :company_id,
+                                 @companies,
+                                 :id,
+                                 :name,
+                                 {
+                                   prompt: t("users.form.select_company")
+                                 },
+                                 {
+                                   class: "w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-sky-500",
+                                   data: {
+                                     company_manager_target: "company",
+                                     action: "change->company-manager#companyChanged"
+                                   }
+                                 } %>
+    </div>
+
+
+    <!-- Manager -->
+    <div
+      class="md:col-span-2"
+      data-company-manager-target="managerContainer"
+    >
+
+      <%= form.label :manager_id,
+                     t("users.form.manager"),
+                     class: "mb-2 block text-sm font-medium text-slate-700" %>
+
+      <%= form.select :manager_id,
+                      [],
+                      {
+                        prompt: t("users.form.select_manager")
+                      },
+                      {
+                        class: "w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-sky-500",
+                        disabled: true,
+                        data: {
+                          company_manager_target: "manager"
+                        }
+                      } %>
+
+    </div>
+
+  </div>
+</div>

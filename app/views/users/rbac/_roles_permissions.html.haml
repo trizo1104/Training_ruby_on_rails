@@ -1,0 +1,76 @@
+.rounded-3xl.border.border-slate-200.bg-white.p-5.shadow-sm
+  .mb-5
+    %h2.text-lg.font-semibold.text-slate-900
+      Roles → Permissions
+
+    %p.mt-1.text-sm.text-slate-500
+      Assign permissions to each role.
+
+  .overflow-x-auto
+    %table.w-full.min-w-max.text-sm
+      %thead
+        %tr.border-b.border-slate-200
+          %th.sticky.left-0.bg-white.px-4.py-3.text-left.font-semibold.text-slate-700
+            Resource
+
+          %th.bg-white.px-4.py-3.text-left.font-semibold.text-slate-700
+            Action
+
+          - roles.each do |role|
+            %th.px-6.py-3.text-center.font-semibold.text-slate-700
+              = role.name
+
+      %tbody
+        - permissions.each do |resource, resource_permissions|
+
+          - resource_permissions.each_with_index do |permission, index|
+
+            %tr.border-b.border-slate-100.hover:bg-slate-50
+
+              / Resource
+              %td.sticky.left-0.bg-white.px-4.py-4
+                - if index == 0
+                  %span.font-semibold.text-slate-900
+                    = resource
+
+              / Action
+              %td.px-4.py-4
+                %span.text-sm.text-slate-700
+                  = permission.action
+
+              / Roles
+              - roles.each do |role|
+                %td.px-6.py-4.text-center
+                  = check_box_tag "role_permissions[#{role.id}][]", permission.id, role.permissions.include?(permission), form: "rbac-form", class: "h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+
+
+-# .rounded-3xl.border.border-slate-200.bg-white.p-5.shadow-sm
+-#   .mb-5
+-#     %h2.text-lg.font-semibold.text-slate-900
+-#       Roles → Permissions
+
+-#     %p.mt-1.text-sm.text-slate-500
+-#       Assign permissions to each role.
+
+-#   .overflow-x-auto
+-#     %table.w-full.min-w-max.text-sm
+-#       %thead
+-#         %tr.border-b.border-slate-200
+-#           %th.sticky.left-0.bg-white.px-4.py-3.text-left.font-semibold.text-slate-700
+-#             Role
+
+-#           - permissions.each do |permission|
+-#             %th.px-6.py-3.text-center.font-semibold.text-slate-700
+-#               = "#{permission.resource}.#{permission.action}"
+
+-#       %tbody
+-#         - roles.each do |role|
+-#           %tr.border-b.border-slate-100
+
+-#             %td.sticky.left-0.bg-white.px-4.py-4
+-#               %p.font-medium.text-slate-900
+-#                 = role.name
+
+-#             - permissions.each do |permission|
+-#               %td.px-6.py-4.text-center
+-#                 = check_box_tag "role_permissions[#{role.id}][]", permission.id, role.permissions.include?(permission), form: "rbac-form", class: "h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
