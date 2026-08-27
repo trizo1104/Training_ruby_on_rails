@@ -3,11 +3,8 @@ class ApplicationController < ActionController::Base
   include Pagy::Method
 
   before_action :authenticate_user!
-  before_action :authorize_request!
 
   around_action :switch_locale
-
-  class_attribute :required_permissions, default: {}
 
   def default_url_options
     { locale: I18n.locale }
@@ -30,18 +27,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  def authorize_request!
-    permission = required_permissions[action_name.to_sym]
-
-    return unless permission
-
-    resource, action = permission
-
-    return if current_user.has_permission?(resource, action)
-
-    redirect_to root_path,
-                alert: "Bạn không có quyền thực hiện thao tác này."
-  end
 
   def switch_locale(&action)
     locale = params[:locale] || I18n.default_locale

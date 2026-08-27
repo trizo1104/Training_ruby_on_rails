@@ -139,6 +139,7 @@ vi:
     index:
       page_title: "Người dùng"
       title: "Danh sách người dùng"
+      create: "Tạo người dùng"
       description: "Xem danh sách người dùng trong không gian làm việc của bạn."
       empty_title: "Chưa có người dùng"
       empty_description: "Chưa có người dùng nào trong không gian làm việc của bạn."
@@ -164,12 +165,24 @@ vi:
     index:
       page_title: "Công Ty"
       title: "Danh sách công ty"
+      create: "Tạo công ty"
       description: "Xem danh sách các công ty trong không gian làm việc của bạn."
       empty_title: "Chưa có công ty"
       empty_description: "Chưa có công ty nào trong không gian làm việc của bạn."
       search_label: "Tìm công ty"
       search_placeholder: "Tìm kiếm công ty"
       metadata: "Tạo: %{created_at} · Cập nhật: %{updated_at}"
+    new:
+      page_title: "Tạo công ty"
+      title: "Tạo công ty"
+      description: "Tạo một công ty mới và nhập thông tin công ty"
+    form:
+      name: "Tên công ty"
+      name_placeholder: "Nhập tên công ty"
+      address: "Địa chỉ"
+      address_placeholder: "Nhập địa chỉ công ty"
+      save: "Tạo công ty"
+      update: "Cập nhật công ty"
   devise_views:
     sessions:
       page_title: "Đăng nhập"

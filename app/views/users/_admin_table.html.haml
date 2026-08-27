@@ -1,0 +1,20 @@
+= render "users/rbac/create_role"
+
+= form_with url: admin_rbac_path,
+            method: :patch,
+            id: "rbac-form" do
+
+  .space-y-6
+
+    = render "users/rbac/users_roles",
+             users: @users,
+             roles: @roles
+
+    = render "users/rbac/roles_permissions",
+             roles: @roles,
+             permissions: @permissions
+
+    .flex.justify-end
+      = submit_tag "Save changes",
+                   form: "rbac-form",
+                   class: "rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white"

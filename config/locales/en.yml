@@ -139,6 +139,7 @@ en:
     index:
       page_title: "Users"
       title: "User list"
+      create: "Create user"
       description: "Browse the users in your workspace."
       empty_title: "No users yet"
       empty_description: "There are no users in your workspace yet."
@@ -164,12 +165,24 @@ en:
     index:
       page_title: "Company"
       title: "Company List"
+      create: "Create company"
       description: "View the list of companies in your workspace."
       empty_title: "No companies yet"
       empty_description: "There are no companies in your workspace yet."
       search_label: "Search companies"
       search_placeholder: "Search companies"
       metadata: "Created: %{created_at} · Updated: %{updated_at}"
+    new:
+      page_title: "Create Company"
+      title: "Create Company"
+      description: "Create a new company and add its information"
+    form:
+      name: "Company name"
+      name_placeholder: "Enter company name"
+      address: "Address"
+      address_placeholder: "Enter company address"
+      save: "Create Company"
+      update: "Update Company"
   devise_views:
     sessions:
       page_title: "Sign in"

@@ -161,6 +161,7 @@ ja:
     index:
       page_title: "ユーザー"
       title: "ユーザー一覧"
+      create: ユーザーの作成
       description: "ワークスペースのユーザーを確認できます。"
       empty_title: "ユーザーはまだいません"
       empty_description: "ワークスペースにユーザーがまだいません。"
@@ -186,12 +187,24 @@ ja:
     index:
       page_title: "会社"
       title: "会社一覧"
+      create: 会社を作る
       description: "ワークスペース内の会社一覧を表示します。"
       empty_title: "会社がありません"
       empty_description: "ワークスペースにはまだ会社が登録されていません。"
       search_label: "会社を検索"
       search_placeholder: "会社を検索"
       metadata: "作成: %{created_at} · 更新: %{updated_at}"
+    new:
+      page_title: "会社を作成"
+      title: "会社を作成"
+      description: "新しい会社を作成し、会社情報を入力します"
+    form:
+      name: "会社名"
+      name_placeholder: "会社名を入力してください"
+      address: "住所"
+      address_placeholder: "会社の住所を入力してください"
+      save: "会社を作成"
+      update: "会社を更新"
   devise_views:
     sessions:
       page_title: "ログイン"

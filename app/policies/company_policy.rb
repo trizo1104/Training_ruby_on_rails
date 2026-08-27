@@ -7,6 +7,10 @@ class CompanyPolicy < ApplicationPolicy
     user.has_permission?("company", "view")
   end
 
+  def new?
+    create?
+  end
+
   def create?
     user.has_permission?("company", "create")
   end
@@ -21,7 +25,7 @@ class CompanyPolicy < ApplicationPolicy
 
   class Scope < ApplicationPolicy::Scope
   def resolve
-    if user.has_permission?("company", "read_all")
+    if user.has_permission?("company", "view_all")
       scope.all
     elsif user.has_permission?("company", "view")
       scope.where(id: user.company_id)

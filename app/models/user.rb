@@ -41,6 +41,10 @@ class User < ApplicationRecord
     roles.exists?(name: role_name)
   end
 
+  def role_names
+    roles.pluck(:name)
+  end
+
   private
 
   def avatar_is_valid

@@ -1,0 +1,10 @@
+- @page_title = t("companies.new.page_title")
+- @active_nav = "companies"
+
+.space-y-6
+  = render "shared/page_header",
+    title: t("companies.new.title"),
+    description: t("companies.new.description")
+
+  .rounded-3xl.border.border-slate-200.bg-white.p-6.shadow-sm
+    = render "form", company: @company

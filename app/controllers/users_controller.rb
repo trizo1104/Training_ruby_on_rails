@@ -1,12 +1,46 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
-  def index
-    @page_title = t("users.index.page_title")
-    @active_nav = "users"
+  # def index
+  #   @page_title = t("users.index.page_title")
+  #   @active_nav = "users"
 
-    @users = policy_scope(User)
-    @pagy, @users = pagy(:offset, @users, limit: 3)
+  #   @users = policy_scope(User)
+
+  #   if current_user.has_role?("Admin")
+  #     prepare_rbac_data
+  #   end
+
+  #   @pagy, @users = pagy(:offset, @users, limit: 5)
+  # end
+
+  def index
+    authorize User
+
+    scope = policy_scope(User)
+
+    if params[:search].present?
+      scope = scope.where(
+        "first_name ILIKE :q OR last_name ILIKE :q OR email ILIKE :q",
+        q: "%#{params[:search]}%"
+      )
+    end
+
+    @pagy, @users = pagy(
+      scope
+        .includes(:roles, :company, :manager)
+        .order(:first_name, :last_name)
+    )
+
+    if current_user.has_role?("Admin")
+      @roles = Role
+        .includes(:permissions)
+        .order(:name)
+
+      @permissions = Permission
+        .order(:resource, :action)
+        .group_by(&:resource)
+    end
   end
 
   def show
@@ -50,13 +84,20 @@ class UsersController < ApplicationController
     redirect_to user_path(@user),
                 notice: t("users.create.success")
 
-  rescue ActiveRecord::RecordInvalid
+  rescue ActiveRecord::RecordInvalid # try-catch exception to catch failure situation
     prepare_user_form
     render :new, status: :unprocessable_entity
   end
 
   def edit
-    @user = User.find_by!(id: params[:id])
+    # @user = User.find_by!(id: params[:id])
+
+    @user =
+      if params[:id].present?
+        User.find_by!(id: params[:id])
+      else
+        current_user
+      end
 
     authorize @user, :edit?
 
@@ -116,47 +157,6 @@ class UsersController < ApplicationController
         end
     end
 
-    # def assign_user_relationships
-    #   if current_user.has_role?("Admin")
-    #     assign_admin_user_relationships
-    #   else
-    #     assign_manager_user_relationships
-    #   end
-    # end
-
-    # def assign_manager_user_relationships
-    #   @user.company = current_user.company
-    #   @user.manager = current_user
-    # end
-
-    # def assign_admin_user_relationships
-    #   company = Company.find(user_params[:company_id])
-
-    #   @user.company = company
-
-    #   role = Role.find(user_params[:role_id])
-
-    #   if role.name == "Employee"
-    #     manager = company.users
-    #                       .joins(:roles)
-    #                       .where(roles: { name: "Manager" })
-    #                       .find(user_params[:manager_id])
-
-    #     @user.manager = manager
-    #   elsif role.name == "Manager"
-    #     @user.manager = nil
-    #   end
-    # end
-
-    # def assign_role
-    #   role = Role.find(user_params[:role_id])
-
-    #   UserRole.find_or_create_by!(
-    #     user: @user,
-    #     role: role
-    #   )
-    # end
-
     def resolve_user_relationships(role)
       if current_user.has_role?("Admin")
         resolve_admin_relationships(role)
@@ -194,6 +194,12 @@ class UsersController < ApplicationController
       ]
     end
 
+    def prepare_rbac_data
+      @roles = Role.order(:name)
+
+      @permissions = Permission.order(:resource, :action)
+    end
+
     def user_params
       params.require(:user).permit(
         :email,
@@ -208,15 +214,4 @@ class UsersController < ApplicationController
         :manager_id,
       )
     end
-
-  # def profile_params
-  #   params.require(:user).permit(
-  #     :email,
-  #     :username,
-  #     :first_name,
-  #     :last_name,
-  #     :department,
-  #     :avatar
-  #   )
-  # end
 end
