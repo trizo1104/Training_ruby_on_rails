@@ -2,7 +2,7 @@
 <% @active_nav = "profile" %>
 
 <div class="space-y-6">
-  <%= render "shared/page_header", title: t("users.show.title"), description: t("users.show.description"), action_label: t("users.show.edit"), action_path: edit_profile_path %>
+  <%= render "shared/page_header", title: t("users.show.title"), description: t("users.show.description"), action_label: t("users.show.edit"),  action_path: @user == current_user ? edit_profile_path : edit_user_path(@user) %>
   <div class="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div class="flex flex-col items-center text-center">
@@ -12,13 +12,42 @@
         <p class="mt-4 text-sm text-slate-500"><%= t("common.assignment_count", count: @user.assignments.count) %></p>
       </div>
     </section>
-    <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h3 class="text-lg font-semibold text-slate-900"><%= t("users.show.about") %></h3>
+   <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h3 class="text-lg font-semibold text-slate-900">
+        <%= t("users.show.about") %>
+      </h3>
+
       <div class="mt-6 grid gap-4 sm:grid-cols-2">
-        <% [[t("common.labels.email"), @user.email], [t("common.labels.username"), @user.username], [t("common.labels.department"), @user.department], [t("users.show.joined"), l(@user.created_at, format: :long)]].each do |label, value| %>
+        <% [
+          [t("common.labels.email"), @user.email],
+          [t("common.labels.username"), @user.username],
+          [t("common.labels.department"), @user.department],
+          [t("common.labels.role"), @user.roles.first&.name],
+          [t("common.labels.company"), @user.company&.name],
+          [t("users.show.joined"), l(@user.created_at, format: :long)]
+        ].each do |label, value| %>
+
           <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-            <p class="text-sm text-slate-500"><%= label %></p>
-            <p class="mt-2 font-semibold text-slate-900"><%= value %></p>
+            <p class="text-sm text-slate-500">
+              <%= label %>
+            </p>
+
+            <p class="mt-2 font-semibold text-slate-900">
+              <%= value.presence || "-" %>
+            </p>
+          </div>
+
+        <% end %>
+
+        <% unless @user.has_role?("Manager") %>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <p class="text-sm text-slate-500">
+              <%= t("common.labels.manager") %>
+            </p>
+
+            <p class="mt-2 font-semibold text-slate-900">
+              <%= @user.manager&.full_name.presence || "-" %>
+            </p>
           </div>
         <% end %>
       </div>

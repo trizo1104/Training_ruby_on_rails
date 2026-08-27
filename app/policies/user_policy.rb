@@ -27,8 +27,12 @@ class UserPolicy < ApplicationPolicy
 
     return false unless user.has_permission?("user", "update")
 
-    record.company_id == user.company_id &&
-      record.manager_id == user.id
+    if user.has_permission?("user", "view_all")
+      true
+    else
+      record.company_id == user.company_id &&
+        record.manager_id == user.id
+    end
   end
 
   def new?

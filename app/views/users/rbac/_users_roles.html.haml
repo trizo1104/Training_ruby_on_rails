@@ -22,20 +22,21 @@
           %tr.border-b.border-slate-100
 
             %td.sticky.left-0.bg-white.px-4.py-4
-              .flex.items-center.gap-3
+              = link_to user_path(user), class: "block" do
+                .flex.items-center.gap-3
 
-                - if user.avatar.attached?
-                  = image_tag user.avatar, class: "h-10 w-10 rounded-xl object-cover", alt: user.full_name, loading: "lazy"
-                - else
-                  .flex.h-10.w-10.items-center.justify-center.rounded-xl.bg-sky-50.text-sky-600
-                    = user.first_name&.first&.upcase
+                  - if user.avatar.attached?
+                    = image_tag user.avatar, class: "h-10 w-10 rounded-xl object-cover", alt: user.full_name, loading: "lazy"
+                  - else
+                    .flex.h-10.w-10.items-center.justify-center.rounded-xl.bg-sky-50.text-sky-600
+                      = user.first_name&.first&.upcase
 
-                .min-w-0
-                  %p.font-medium.text-slate-900
-                    = user.full_name
+                  .min-w-0
+                    %p.font-medium.text-slate-900
+                      = user.full_name
 
-                  %p.text-xs.text-slate-500
-                    = user.email
+                    %p.text-xs.text-slate-500
+                      = user.email
 
             - roles.each do |role|
               %td.px-6.py-4.text-center

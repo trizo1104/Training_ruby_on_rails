@@ -110,7 +110,7 @@ class UsersController < ApplicationController
     authorize @user, :update?
 
     if @user.update(user_params)
-      redirect_to user_path(@user),
+      redirect_to users_path,
                   notice: t("users.update.success")
     else
       prepare_user_form
@@ -139,12 +139,14 @@ class UsersController < ApplicationController
     def prepare_user_form
       @is_admin = current_user.has_role?("Admin")
 
-      return unless @is_admin
+      # return unless @is_admin
 
       @roles = Role.order(:name)
       @companies = Company.order(:name)
 
-      company_id = params.dig(:user, :company_id)
+  # company_id = params.dig(:user, :company_id)
+  company_id = params.dig(:user, :company_id).presence ||
+          @user.company_id
 
       @managers =
         if company_id.present?

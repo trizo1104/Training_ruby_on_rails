@@ -4,8 +4,20 @@
               class: "space-y-6",
               multipart: true do |form| %>
               
-  <% if @is_admin && @user.new_record? %>
-    <%= render "users/form/organization", form: form %>
+  <%# if @is_admin && @user.new_record? %>
+    <%#= render "users/form/organization", form: form %>
+  <%# end %>
+
+  <% if @user.new_record? %>
+
+    <% if @is_admin %>
+      <%= render "users/form/organization_new", form: form %>
+    <% end %>
+
+  <% else %>
+
+    <%= render "users/form/organization_edit", form: form %>
+
   <% end %>
 
   <%= render "users/form/basic_information", form: form %>
