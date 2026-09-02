@@ -1,6 +1,10 @@
 class Admin::ManagerRoleChecker
-  def initialize(user_roles:)
+  def initialize(
+    user_roles:,
+    manager_replacements: {}
+  )
     @user_roles = user_roles || {}
+    @manager_replacements = manager_replacements || {}
   end
 
   def call
@@ -12,15 +16,27 @@ class Admin::ManagerRoleChecker
         next unless manager_role_removed?(user)
 
         employees = user.employees.to_a
+
         next if employees.empty?
+        next if replacement_selected_for?(user)
+
+        replacement_managers = replacement_managers_for(user) # find another manager which same company
+        # next if replacement_managers.any? # block if do not have another manager
 
         {
           user_id: user.id,
           name: user.full_name,
           company_id: user.company_id,
           employee_count: employees.size,
-          replacement_managers: replacement_managers_for(user),
-          replacement_employees: replacement_employees_for(employees)
+          # replacement_managers: replacement_managers_for(user),
+          # replacement_employees: replacement_employees_for(employees)
+          replacement_managers: replacement_managers,
+          message:
+            if replacement_managers.empty?
+              "This manager is the only manager in this company."
+            else
+              "Please select a replacement manager."
+            end
         }
       end
   end
@@ -53,15 +69,19 @@ class Admin::ManagerRoleChecker
       end
   end
 
-  def replacement_employees_for(employees)
-    employees
-      .sort_by { |employee| [ employee.first_name, employee.last_name ] }
-      .map do |employee|
-        {
-          id: employee.id,
-          name: employee.full_name
-        }
-      end
+  # def replacement_employees_for(employees)
+  #   employees
+  #     .sort_by { |employee| [ employee.first_name, employee.last_name ] }
+  #     .map do |employee|
+  #       {
+  #         id: employee.id,
+  #         name: employee.full_name
+  #       }
+  #     end
+  # end
+
+  def replacement_selected_for?(user)
+    @manager_replacements.key?(user.id.to_s)
   end
 
   def manager_role

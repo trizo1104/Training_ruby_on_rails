@@ -5,10 +5,10 @@ class Admin::ManagerReassigner
   end
 
   def call
-    ActiveRecord::Base.transaction do
+      # ActiveRecord::Base.transaction do
       reassign_employees!
       promote_replacement_manager!
-    end
+    # end
   end
 
   private

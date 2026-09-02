@@ -2,13 +2,15 @@
 
 = form_with url: admin_rbac_path,
             method: :patch,
-            id: "rbac-form" do
+            id: "rbac-form",
+            data: { rbac_form: true } do
 
   .space-y-6
 
     = render "users/rbac/users_roles",
              users: @users,
-             roles: @roles
+             roles: @roles,
+             submitted_user_roles: @submitted_user_roles
 
     = render "users/rbac/roles_permissions",
              roles: @roles,

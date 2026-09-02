@@ -27,10 +27,6 @@ Rails.application.routes.draw do
     patch "rbac", to: "rbac#update"
     put "rbac", to: "rbac#update"
 
-    post "rbac/reassign_manager",
-        to: "rbac#reassign_manager",
-        as: :rbac_reassign_manager
-
     post "rbac/roles",
         to: "rbac#create_role",
         as: :rbac_roles

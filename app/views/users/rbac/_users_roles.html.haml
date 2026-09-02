@@ -10,7 +10,7 @@
     %table.w-full.min-w-max.text-sm
       %thead
         %tr.border-b.border-slate-200
-          %th.sticky.left-0.bg-white.px-4.py-3.text-left.font-semibold.text-slate-700
+          %th.sticky.left-0.z-10.bg-white.px-4.py-3.text-left.font-semibold.text-slate-700
             User
 
           - roles.each do |role|
@@ -19,16 +19,23 @@
 
       %tbody
         - users.each do |user|
-          %tr.border-b.border-slate-100
 
-            %td.sticky.left-0.bg-white.px-4.py-4
+          - selected_role_ids = submitted_user_roles.present? && submitted_user_roles.key?(user.id.to_s) ? Array(submitted_user_roles[user.id.to_s]).map(&:to_i) : user.roles.pluck(:id)
+
+          %tr.border-b.border-slate-100.hover:bg-slate-50
+
+            / User
+            %td.sticky.left-0.z-10.bg-white.px-4.py-4
               = link_to user_path(user), class: "block" do
                 .flex.items-center.gap-3
 
                   - if user.avatar.attached?
-                    = image_tag user.avatar, class: "h-10 w-10 rounded-xl object-cover", alt: user.full_name, loading: "lazy"
+                    = image_tag user.avatar,
+                                class: "h-10 w-10.shrink-0.rounded-xl.object-cover",
+                                alt: user.full_name,
+                                loading: "lazy"
                   - else
-                    .flex.h-10.w-10.items-center.justify-center.rounded-xl.bg-sky-50.text-sky-600
+                    .flex.h-10.w-10.shrink-0.items-center.justify-center.rounded-xl.bg-sky-50.text-sky-600
                       = user.first_name&.first&.upcase
 
                   .min-w-0
@@ -40,4 +47,8 @@
 
             - roles.each do |role|
               %td.px-6.py-4.text-center
-                = check_box_tag "user_roles[#{user.id}][]", role.id, user.roles.include?(role), form: "rbac-form", class: "h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                = check_box_tag "user_roles[#{user.id}][]",
+                                role.id,
+                                selected_role_ids.include?(role.id),
+                                form: "rbac-form",
+                                class: "h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"

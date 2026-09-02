@@ -14,19 +14,11 @@ class Admin::RbacController < ApplicationController
       .order(:resource, :action)
   end
 
-  # def update
-  #   Admin::RbacUpdater.new(
-  #     user_roles: rbac_params[:user_roles],
-  #     role_permissions: rbac_params[:role_permissions]
-  #   ).call
-
-  #   redirect_to users_path,
-  #               notice: "RBAC updated successfully."
-  # end
-
   def update
+    # check if any employee belong to that manager
     conflicts = Admin::ManagerRoleChecker.new(
-      user_roles: rbac_params[:user_roles]
+      user_roles: rbac_params[:user_roles],
+      manager_replacements: rbac_params[:manager_replacements]
     ).call
 
     if conflicts.any?
@@ -34,11 +26,14 @@ class Admin::RbacController < ApplicationController
       return
     end
 
+    # if not -> continute do RBAC update
     Admin::RbacUpdater.new(
       user_roles: rbac_params[:user_roles],
-      role_permissions: rbac_params[:role_permissions]
+      role_permissions: rbac_params[:role_permissions],
+      manager_replacements: rbac_params[:manager_replacements]
     ).call
 
+    # redirect when success
     redirect_to users_path,
                 notice: "RBAC updated successfully."
   end
@@ -56,24 +51,6 @@ class Admin::RbacController < ApplicationController
                 alert: e.record.errors.full_messages.to_sentence
   end
 
-  def reassign_manager
-    manager = User.find(params[:user_id])
-    replacement_manager = User.find(
-      params[:replacement_manager_id]
-    )
-
-    Admin::ManagerReassigner.new(
-      manager: manager,
-      replacement_manager: replacement_manager
-    ).call
-
-    redirect_to users_path,
-                notice: "Manager reassigned successfully."
-  rescue ActiveRecord::RecordInvalid, ArgumentError => e
-    redirect_to users_path,
-                alert: e.message
-  end
-
   private
 
   def authorize_rbac!
@@ -83,7 +60,8 @@ class Admin::RbacController < ApplicationController
   def rbac_params
     params.permit(
       user_roles: {},
-      role_permissions: {}
+      role_permissions: {},
+      manager_replacements: {}
     )
   end
 
@@ -110,6 +88,7 @@ class Admin::RbacController < ApplicationController
 
   def render_manager_conflict(conflicts)
     @manager_conflicts = conflicts
+    @submitted_user_roles = rbac_params[:user_roles].to_h
 
     prepare_rbac_data
 
