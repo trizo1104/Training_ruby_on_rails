@@ -83,13 +83,13 @@
       <% @assignments.each do |assignment| %>
         <article class="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
           <div class="flex min-w-0 items-start gap-4">
-            <% if assignment.images.attached? %>
+            <% if assignment.assignment_images.exists? %>
               <div class="shrink-0" data-image-lightbox-gallery>
-                <button type="button" class="block cursor-zoom-in rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" data-action="click->image-lightbox#open" data-image-lightbox-url="<%= url_for(assignment.images.first) %>" data-image-lightbox-alt="<%= t('assignments.form.image_alt') %>">
-                  <%= image_tag assignment.images.first, class: "h-16 w-24 rounded-2xl object-cover", alt: t("assignments.form.image_alt"), loading: "lazy" %>
+                <button type="button" class="block cursor-zoom-in rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" data-action="click->image-lightbox#open" data-image-lightbox-url="<%= url_for(assignment.assignment_images.first.image) %>" data-image-lightbox-alt="<%= t('assignments.form.image_alt') %>">
+                  <%= image_tag assignment.assignment_images.first.image, class: "h-16 w-24 rounded-2xl object-cover", alt: t("assignments.form.image_alt"), loading: "lazy" %>
                 </button>
-                <% assignment.images.drop(1).each do |image| %>
-                  <button type="button" class="hidden" data-action="click->image-lightbox#open" data-image-lightbox-url="<%= url_for(image) %>" data-image-lightbox-alt="<%= t('assignments.form.image_alt') %>" aria-hidden="true" tabindex="-1"></button>
+                <% assignment.assignment_images.drop(1).each do |assignment_image| %>
+                  <button type="button" class="hidden" data-action="click->image-lightbox#open" data-image-lightbox-url="<%= url_for(assignment_image.image) %>" data-image-lightbox-alt="<%= t('assignments.form.image_alt') %>" aria-hidden="true" tabindex="-1"></button>
                 <% end %>
               </div>
             <% else %>
@@ -102,7 +102,7 @@
                 <h4 class="truncate text-lg font-semibold text-slate-900"><%= truncate(assignment.content, length: 70) %></h4>
                 <%= render "shared/status_badge", status: assignment.status %>
               </div>
-              <p class="mt-2 text-sm text-slate-500"><%= t("assignments.index.metadata", images: t("common.image_count", count: assignment.images.size), created_at: l(assignment.created_at, format: :short), updated_at: l(assignment.updated_at, format: :short)) %></p>
+              <p class="mt-2 text-sm text-slate-500"><%= t("assignments.index.metadata", images: t("common.image_count", count: assignment.assignment_images.size), created_at: l(assignment.created_at, format: :short), updated_at: l(assignment.updated_at, format: :short)) %></p>
             </div>
           </div>
           <div class="flex gap-3 text-sm">

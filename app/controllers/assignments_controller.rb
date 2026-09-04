@@ -5,11 +5,10 @@ class AssignmentsController < ApplicationController
   def index
     @page_title = t("assignments.index.page_title")
     @active_nav = "assignments"
-    scope = current_user.assignments.with_attached_images.order(created_at: :desc)
+    scope = current_user.assignments.includes(assignment_images: { image_attachment: :blob }).order(created_at: :desc)
     scope = scope.where("content ILIKE ?", "%#{Assignment.sanitize_sql_like(params[:search])}%") if params[:search].present?
     scope = scope.where(status: params[:status]) if Assignment.statuses.key?(params[:status])
     # @pagy, @assignments = pagy(:offset, scope, limit: 3)
-
 
     respond_to do |format|
       format.html do
@@ -101,6 +100,8 @@ class AssignmentsController < ApplicationController
     assign_attributes_with_images
 
     if @assignment.save
+      update_image_positions!
+
       @assignment.sync_status_with_images!
 
       if @new_images_uploaded
@@ -129,10 +130,6 @@ class AssignmentsController < ApplicationController
 
   private
 
-  # def set_assignment
-  #   @assignment = current_user.assignments.find(params[:id])
-  # end
-
   def set_assignment
     id = params[:id] || params[:assignment_id]
     @assignment = current_user.assignments.find(id)
@@ -151,9 +148,61 @@ class AssignmentsController < ApplicationController
     @new_images_uploaded = new_images.any?
 
     @assignment.assign_attributes(permitted)
-    if @new_images_uploaded
-      @assignment.validate_uploaded_images(new_images)
-      @assignment.images.attach(new_images) unless @assignment.errors.any?
+
+    return unless @new_images_uploaded
+
+    @assignment.validate_uploaded_images(new_images)
+
+    return if @assignment.errors.any?
+
+    next_position = @assignment.assignment_images.maximum(:position).to_i + 1
+
+    new_images.each do |file|
+      assignment_image = @assignment.assignment_images.build(
+        position: next_position
+      )
+
+      assignment_image.image.attach(file)
+
+      next_position += 1
+    end
+  end
+
+  def update_image_positions!
+    ids = params[:image_ids].to_s
+              .split(",")
+              .map(&:to_i)
+
+    return if ids.empty?
+
+    if ids.uniq.size != ids.size
+      raise ActiveRecord::RecordInvalid.new(@assignment)
+    end
+
+    assignment_images =
+      @assignment.assignment_images.where(id: ids)
+
+    if assignment_images.size != ids.size
+      raise ActiveRecord::RecordInvalid.new(@assignment)
+    end
+
+    images_by_id = assignment_images.index_by(&:id)
+
+    # Temporary negative positions
+    # to avoid unique constraint violation
+    AssignmentImage.transaction do
+      assignment_images.each_with_index do |assignment_image, index|
+        assignment_image.update!(
+          position: -(index + 1)
+        )
+      end
+
+      # Apply the new order
+      ids.each_with_index do |id, index|
+        images_by_id.fetch(id).update!(
+          position: index + 1
+        )
+      end
     end
   end
 
