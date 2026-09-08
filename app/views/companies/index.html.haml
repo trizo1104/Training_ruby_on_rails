@@ -52,13 +52,4 @@
                     created_at: l(company.created_at, format: :short),
                     updated_at: l(company.updated_at, format: :short))
 
-          -# .flex.gap-3.text-sm
-          -#   = link_to t("common.actions.view_details"),
-          -#             company_path(company),
-          -#             class: "font-semibold text-sky-600 hover:text-sky-700"
-
-          -#   = link_to t("common.actions.edit"),
-          -#             edit_company_path(company),
-          -#             class: "font-semibold text-slate-600 hover:text-slate-900"
-
   = render "shared/pagination", pagy: @pagy

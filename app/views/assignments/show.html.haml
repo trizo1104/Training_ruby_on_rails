@@ -1,0 +1,70 @@
+- @page_title = t("assignments.show.page_title")
+- @active_nav = "assignments"
+
+.space-y-6
+  = render "shared/page_header",
+    title: t("assignments.show.title"),
+    description: t("assignments.show.description"),
+    action_label: t("common.actions.edit"),
+    action_path: edit_assignment_path(@assignment)
+
+  .grid.gap-6{ class: "lg:grid-cols-[1fr_0.8fr]" }
+    %section.rounded-3xl.border.border-slate-200.bg-white.p-6.shadow-sm
+      .flex.flex-wrap.items-center.justify-between.gap-3
+        %h3.text-xl.font-semibold.text-slate-900
+          = t("assignments.show.assignment_content")
+
+        = render "shared/status_badge", status: @assignment.status
+
+      %p.mt-6.whitespace-pre-wrap.text-sm.leading-7.text-slate-600
+        = @assignment.content
+
+      .mt-6.grid.gap-4.sm:grid-cols-2
+        - metadata = [[t("common.labels.owner"), @assignment.user.full_name], [t("common.labels.department"), @assignment.user.department], [t("common.labels.images"), t("common.image_count", count: @assignment.assignment_images.count)], [t("common.labels.created"), l(@assignment.created_at, format: :short)], [t("common.labels.updated"), l(@assignment.updated_at, format: :short)]]
+        - metadata.each do |label, value|
+          .rounded-2xl.border.border-slate-200.bg-slate-50.p-4
+            %p.text-sm.text-slate-500
+              = label
+
+            %p.mt-2.font-semibold.text-slate-900
+              = value
+
+      .mt-6.flex.flex-wrap.gap-3
+        = link_to t("assignments.edit.title"),
+          edit_assignment_path(@assignment),
+          class: "rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-600"
+
+        = button_to t("assignments.show.delete"),
+          assignment_path(@assignment),
+          method: :delete,
+          class: "rounded-lg border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-600 hover:bg-rose-50",
+          form: {data: {turbo_confirm: t("assignments.show.delete_confirm")}}
+
+    %section.rounded-3xl.border.border-slate-200.bg-white.p-6.shadow-sm
+      %h3.text-lg.font-semibold.text-slate-900
+        = t("assignments.show.attached_images")
+
+      - if @assignment.assignment_images.exists?
+        .mt-4.grid.gap-3.sm:grid-cols-2{ data: { image_lightbox_gallery: true } }
+          - @assignment.assignment_images.each do |assignment_image|
+            %button{
+              type: "button",
+              class: "block w-full cursor-zoom-in rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2",
+              data: {
+                action: "click->image-lightbox#open",
+                image_lightbox_url: url_for(assignment_image.image),
+                image_lightbox_alt: t("assignments.form.image_alt")
+              }
+            }
+              = image_tag assignment_image.image,
+                class: "h-36 w-full rounded-2xl object-cover",
+                alt: t("assignments.form.image_alt"),
+                loading: "lazy"
+
+      - else
+        = image_tag "assignment-placeholder.svg",
+          class: "mt-4 h-48 w-full rounded-2xl object-cover",
+          alt: t("assignments.show.no_images_alt")
+
+        %p.mt-4.text-sm.text-slate-500
+          = t("assignments.show.no_images")

@@ -1,0 +1,22 @@
+%h1
+  = t("mailers.assignment.submitted.heading")
+
+%p
+  = t("mailers.assignment.submitted.greeting", name: @user.full_name)
+
+%p
+  = t("mailers.assignment.submitted.message")
+
+%h2
+  = t("mailers.assignment.submitted.content")
+
+= simple_format(@assignment.content)
+
+%h2
+  = t("mailers.assignment.submitted.images")
+
+= @assignment.images.each do |image|
+  %p
+    = image_tag attachments[image.filename.to_s].url,
+                  alt: image.filename.to_s,
+                  style: "max-width: 800px; width: 100%; height: auto;" %>

@@ -1,0 +1,18 @@
+= render "shared/form_errors", resource: @user
+
+= form_with model: @user, class: "space-y-6", multipart: true do |form|
+
+  - if @user.new_record?
+
+    - if @is_admin
+      = render "users/form/organization_new", form: form
+
+  - else
+    = render "users/form/organization_edit", form: form
+
+  = render "users/form/basic_information", form: form
+
+  - if @user.new_record?
+    = render "users/form/password", form: form
+
+  = render "users/form/actions", form: form

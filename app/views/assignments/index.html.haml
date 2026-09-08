@@ -1,0 +1,165 @@
+- @page_title = t("assignments.index.page_title")
+- @active_nav = "assignments"
+
+.space-y-6
+  .flex.justify-end
+    - base_export_params = request.query_parameters.except("page")
+
+    .relative.inline-block{ data: { controller: "dropdown" } }
+      %button{
+        type: "button",
+        class: "inline-flex items-center justify-center gap-x-1.5 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700",
+        data: {
+          dropdown_target: "button",
+          action: "click->dropdown#toggle"
+        },
+        aria: {
+          expanded: "false"
+        }
+      }
+        = t("assignments.index.export")
+
+        %svg{
+          class: "-mr-1 size-5",
+          viewBox: "0 0 20 20",
+          fill: "currentColor",
+          aria: {
+            hidden: "true"
+          }
+        }
+          %path{
+            d: "M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Z",
+            "clip-rule": "evenodd",
+            "fill-rule": "evenodd"
+          }
+
+      .absolute.right-0.z-50.mt-2.hidden.w-40.origin-top-right.rounded-md.bg-white.py-1.shadow-lg{
+        data: {
+          dropdown_target: "menu"
+        }
+      }
+        = link_to assignments_path(base_export_params.merge(format: :xlsx)),
+          class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden",
+          data: { turbo: false } do
+          = t("assignments.index.export_excel")
+
+        = link_to assignments_path(base_export_params.merge(format: :xml)),
+          class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden",
+          data: { turbo: false } do
+          = t("assignments.index.export_xml")
+
+        = link_to assignments_path(base_export_params.merge(format: :pdf)),
+          class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden",
+          data: { turbo: false } do
+          = t("assignments.index.export_pdf")
+
+  = render "shared/page_header",
+    title: t("assignments.index.title"),
+    description: t("assignments.index.description"),
+    action_label: t("assignments.index.create"),
+    action_path: new_assignment_path
+
+  .rounded-3xl.border.border-slate-200.bg-white.p-5.shadow-sm
+    = form_with url: assignments_path,
+      method: :get,
+      class: "flex flex-col gap-3 md:flex-row md:items-end" do |form|
+
+      .flex-1
+        = form.label :search,
+          t("assignments.index.search_label"),
+          class: "mb-2 block text-sm font-medium text-slate-700"
+
+        = form.search_field :search,
+          value: params[:search],
+          placeholder: t("assignments.index.search_placeholder"),
+          class: "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white"
+
+      %div
+        = form.label :status,
+          t("common.labels.status"),
+          class: "mb-2 block text-sm font-medium text-slate-700"
+
+        - status_options = [[t("common.labels.all"), ""], [t("common.labels.assigned"), "assigned"], [t("common.labels.finished"), "finished"]]
+
+        = form.select :status,
+          status_options,
+          { selected: params[:status] },
+          class: "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white"
+
+      = form.submit t("common.actions.filter"),
+        class: "rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-600"
+
+  - if @assignments.empty?
+    = render "shared/empty_state",
+      title: t("assignments.index.empty_title"),
+      description: t("assignments.index.empty_description"),
+      action_label: t("assignments.index.create"),
+      action_path: new_assignment_path
+
+  - else
+    .grid.gap-4
+      - @assignments.each do |assignment|
+        %article{
+          class: "flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between"
+        }
+          .flex.min-w-0.items-start.gap-4
+            - if assignment.assignment_images.exists?
+              .shrink-0{ data: { image_lightbox_gallery: true } }
+                %button{
+                  type: "button",
+                  class: "block cursor-zoom-in rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2",
+                  data: {
+                    action: "click->image-lightbox#open",
+                    image_lightbox_url: url_for(assignment.assignment_images.first.image),
+                    image_lightbox_alt: t("assignments.form.image_alt")
+                  }
+                }
+                  = image_tag assignment.assignment_images.first.image,
+                    class: "h-16 w-24 rounded-2xl object-cover",
+                    alt: t("assignments.form.image_alt"),
+                    loading: "lazy"
+
+                - assignment.assignment_images.drop(1).each do |assignment_image|
+                  %button{
+                    type: "button",
+                    class: "hidden",
+                    data: {
+                      action: "click->image-lightbox#open",
+                      image_lightbox_url: url_for(assignment_image.image),
+                      image_lightbox_alt: t("assignments.form.image_alt")
+                    },
+                    aria: {
+                      hidden: "true"
+                    },
+                    tabindex: "-1"
+                  }
+
+            - else
+              .flex.h-16.w-24.shrink-0.items-center.justify-center.rounded-2xl.bg-sky-50.text-sky-600
+                %span.text-xs.font-semibold
+                  = t("assignments.index.no_image")
+
+            .min-w-0
+              .flex.flex-wrap.items-center.gap-2
+                %h4.truncate.text-lg.font-semibold.text-slate-900
+                  = truncate(assignment.content, length: 70)
+
+                = render "shared/status_badge",
+                  status: assignment.status
+
+              %p.mt-2.text-sm.text-slate-500
+                = t("assignments.index.metadata",
+                    images: t("common.image_count", count: assignment.assignment_images.size),
+                    created_at: l(assignment.created_at, format: :short),
+                    updated_at: l(assignment.updated_at, format: :short))
+
+          .flex.gap-3.text-sm
+            = link_to t("common.actions.view_details"),
+              assignment_path(assignment),
+              class: "font-semibold text-sky-600 hover:text-sky-700"
+
+            = link_to t("common.actions.edit"),
+              edit_assignment_path(assignment),
+              class: "font-semibold text-slate-600 hover:text-slate-900"
+
+  = render "shared/pagination", pagy: @pagy

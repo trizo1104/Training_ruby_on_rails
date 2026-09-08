@@ -16,8 +16,10 @@ class Admin::RbacUpdater
   private
 
   def sync_user_roles
-    User.find_each do |user|
-      role_ids = Array(@user_roles[user.id.to_s]).map(&:to_i)
+    @user_roles.each do |user_id, raw_role_ids|
+      user = User.find(user_id)
+
+      role_ids = Array(raw_role_ids).map(&:to_i)
 
       if manager_replacement_for?(user)
         role_ids -= [ manager_role.id ]
@@ -31,8 +33,10 @@ class Admin::RbacUpdater
   end
 
   def sync_role_permissions
-    Role.find_each do |role|
-      permission_ids = Array(@role_permissions[role.id.to_s]).map(&:to_i)
+    @role_permissions.each do |role_id, raw_permission_ids|
+      role = Role.find(role_id)
+
+      permission_ids = Array(raw_permission_ids).map(&:to_i)
 
       RolePermissions::Synchronizer.new(
         role: role,

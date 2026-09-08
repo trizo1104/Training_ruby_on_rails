@@ -52,3 +52,6 @@
                                 selected_role_ids.include?(role.id),
                                 form: "rbac-form",
                                 class: "h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+
+= render "shared/pagination", pagy: @pagy
+

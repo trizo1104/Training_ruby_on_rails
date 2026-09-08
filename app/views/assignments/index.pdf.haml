@@ -1,0 +1,56 @@
+%h1{ style: "text-align:center; margin-bottom:30px;" }
+  = t("assignments.export.pdf_title")
+
+%p
+  %strong
+    = "#{t('assignments.export.generated_at')}:"
+  = Date.current
+
+%p
+  %strong
+    = "#{t('common.labels.user')}:"
+  = @user.full_name
+
+%p
+  %strong
+    = "#{t('common.labels.email')}:"
+  = @user.email
+
+%p
+  %strong
+    = "#{t('common.labels.department')}:"
+  = @user.department
+
+%hr{ style: "margin:25px 0;" }
+
+- @assignments.each do |assignment|
+  %div
+    %h2
+      = t("assignments.export.pdf_assignment", id: assignment.id)
+
+    %p
+      %strong
+        = "#{t('common.labels.status')}:"
+      = t("common.labels.#{assignment.status}")
+
+    %p
+      %strong
+        = t("common.labels.content")
+
+    %div{ style: "white-space:pre-wrap;" }
+      = assignment.content
+
+    %p
+      %strong
+        = t("common.labels.images")
+
+    - if assignment.assignment_images.exists?
+      - assignment.assignment_images.each do |assignment_image|
+        - image = assignment_image.image
+        - image_data = Assignments::ImageEncoder.new(image).data_uri
+        = image_tag image_data, width: 350, style: "margin-right:8px; margin-bottom:8px;"
+    - else
+      %em
+        = t("assignments.export.no_image")
+
+  %hr{ style: "margin:25px 0;" }

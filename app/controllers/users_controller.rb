@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     @pagy, @users = pagy(
       scope
         .includes(:roles, :company, :manager)
-        .order(:first_name, :last_name)
+        .order(:first_name, :last_name), limit: 5
     )
 
     if current_user.has_role?("Admin")

@@ -1,0 +1,34 @@
+!!!
+%html{ lang: I18n.locale, class: "h-full bg-slate-50" }
+  %head
+    %title
+      = content_for(:title) || t("layouts.application.default_title")
+
+    %meta{ name: "viewport", content: "width=device-width,initial-scale=1" }
+    %meta{ name: "apple-mobile-web-app-capable", content: "yes" }
+    %meta{ name: "application-name", content: t("app.name") }
+    %meta{ name: "mobile-web-app-capable", content: "yes" }
+
+    -# %script{ src: "https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" }
+
+    = csrf_meta_tags
+    = csp_meta_tag
+    = yield :head
+    = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+
+  %body.min-h-full.bg-slate-50.text-slate-900
+    .min-h-screen.bg-slate-50
+      = render "shared/flash"
+
+      .min-h-screen
+        = render "shared/sidebar", active_nav: @active_nav || "assignments"
+
+        .flex.min-h-screen.flex-col{ class: "lg:pl-72", data: { controller: "image-lightbox" } }
+          = render "shared/topbar", title: @page_title || t("layouts.application.workspace")
+
+          %main.flex-1.px-4.py-6.sm:px-6.lg:px-8{ class: "lg:pb-8 lg:pt-25" }
+            .mx-auto.flex.w-full.max-w-7xl.flex-col.gap-6
+              = yield
+
+          = render "shared/image_lightbox"

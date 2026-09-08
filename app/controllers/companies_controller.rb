@@ -1,11 +1,12 @@
 class CompaniesController < ApplicationController
   def index
+    authorize Company
     @page_title = t("companies.index.page_title")
     @active_nav = "companies"
 
-     @companies = policy_scope(Company)
+    @companies = policy_scope(Company)
 
-     @pagy, @companies = pagy(:offset, @companies, limit: 4)
+    @pagy, @companies = pagy(:offset, @companies, limit: 4)
   end
 
   def new

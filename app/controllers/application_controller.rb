@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
@@ -36,5 +37,9 @@ class ApplicationController < ActionController::Base
 
   def render_not_found
     render template: "errors/not_found", layout: "errors", status: :not_found
+  end
+
+  def user_not_authorized
+    render template: "errors/forbidden", layout: "errors", status: :forbidden
   end
 end

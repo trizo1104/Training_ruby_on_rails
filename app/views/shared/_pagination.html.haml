@@ -1,0 +1,29 @@
+- if pagy && pagy.pages > 1
+  %nav{
+    class: "flex flex-col items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm text-slate-500 shadow-sm sm:flex-row",
+    "aria-label": t("shared.pagination.label")
+  }
+    %p
+      = t("shared.pagination.showing", from: pagy.from, to: pagy.to, count: pagy.count)
+
+    .flex.items-center.gap-1
+      - if pagy.previous
+        - previous_path = url_for(request.query_parameters.merge(page: pagy.previous))
+        = link_to previous_path, class: "rounded-lg px-3 py-2 font-semibold text-slate-600 hover:bg-slate-50" do
+          = t("shared.pagination.previous")
+
+      - pagy.send(:series).each do |page|
+        - if page.is_a?(Integer)
+          - page_path = url_for(request.query_parameters.merge(page: page))
+          - page_classes = page == pagy.page ? "rounded-lg px-3 py-2 font-semibold bg-sky-500 text-white" : "rounded-lg px-3 py-2 font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50"
+
+          = link_to page, page_path, class: page_classes
+
+        - elsif page == :gap
+          %span.px-2.py-2.text-slate-400
+            &hellip;
+
+      - if pagy.next
+        - next_path = url_for(request.query_parameters.merge(page: pagy.next))
+        = link_to next_path, class: "rounded-lg px-3 py-2 font-semibold text-slate-600 hover:bg-slate-50" do
+          = t("shared.pagination.next")

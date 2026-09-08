@@ -1,0 +1,6 @@
+.flex.flex-wrap.gap-3.border-t.border-slate-200.pt-6
+  - submit_label = @user.new_record? ? t("common.actions.create") : t("common.actions.save")
+  = form.submit submit_label, class: "rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-600"
+
+  - cancel_path = @user.new_record? ? users_path : user_path(@user)
+  = link_to t("common.actions.cancel"), cancel_path, class: "rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
