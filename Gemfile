@@ -52,7 +52,7 @@ gem "pagy"
 # ============================================================
 
 # Image resizing and Active Storage variants
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 2.1"
 
 # ============================================================
 # Optional JSON responses
