@@ -47,14 +47,16 @@ module Assignments
     end
 
     def build_images(xml, assignment)
-       xml.images do
-        assignment.images.each do |image|
-          build_image(xml, image)
+      xml.images do
+        assignment.assignment_images.each do |assignment_image|
+          build_image(xml, assignment_image)
         end
       end
     end
 
-    def build_image(xml, image)
+    def build_image(xml, assignment_image)
+      image = assignment_image.image
+
       xml.image do
         xml.filename image.filename.to_s
         xml.content_type image.content_type

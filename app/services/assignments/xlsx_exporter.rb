@@ -23,7 +23,10 @@ module Assignments
     attr_reader :temporary_files
 
     def prepare_images(assignment)
-      assignment.images.filter_map do |image|
+      assignment.assignment_images.filter_map do |assignment_image|
+        image = assignment_image.image
+
+        next unless image.attached?
         next unless image.blob.image?
 
         create_tempfile(image, assignment.id)
