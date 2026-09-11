@@ -90,6 +90,7 @@ class Admin::RbacController < ApplicationController
   def render_manager_conflict(conflicts)
     @manager_conflicts = conflicts
     @submitted_user_roles = rbac_params[:user_roles].to_h
+    @submitted_role_permissions = rbac_params[:role_permissions].to_h
 
     prepare_rbac_data
 

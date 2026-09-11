@@ -7,6 +7,6 @@ class RolePermissions::Synchronizer
   def call
     permissions = Permission.where(id: @permission_ids)
 
-    @role.permissions = permissions
+    @role.permissions = permissions # replace all current permission in this role to new permission (association)
   end
 end

@@ -6,4 +6,8 @@ class Role < ApplicationRecord
   has_many :permissions, through: :role_permissions
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
+
+  def editable?
+    name != "Admin"
+  end
 end

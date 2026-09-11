@@ -17,28 +17,27 @@
             Action
 
           - roles.each do |role|
-            %th.px-6.py-3.text-center.font-semibold.text-slate-700
+            %th.px-6.py-3.text-center.font-semibold.text-slate-700{
+              data: {
+                rbac_role_id: role.id,
+                rbac_original_permission_ids: role.permissions.map(&:id).to_json
+              }
+            }
               = role.name
 
       %tbody
         - permissions.each do |resource, resource_permissions|
-
           - resource_permissions.each_with_index do |permission, index|
-
             %tr.border-b.border-slate-100.hover:bg-slate-50
-
-              / Resource
               %td.sticky.left-0.bg-white.px-4.py-4
                 - if index == 0
                   %span.font-semibold.text-slate-900
                     = resource
 
-              / Action
               %td.px-4.py-4
                 %span.text-sm.text-slate-700
                   = permission.action
 
-              / Roles
               - roles.each do |role|
                 %td.px-6.py-4.text-center
-                  = check_box_tag "role_permissions[#{role.id}][]", permission.id, role.permissions.include?(permission), form: "rbac-form", class: "h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                  = check_box_tag nil, permission.id, role.permissions.include?(permission), disabled: !role.editable?, data: {action: "change->rbac#permissionChanged", rbac_permission_role_id: role.id, rbac_permission_id: permission.id}, class: "h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
