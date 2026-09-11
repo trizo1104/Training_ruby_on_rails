@@ -1,0 +1,60 @@
+!!! 5
+%html
+  %head
+    %meta{ charset: "UTF-8" }
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
+
+  %body{ style: "margin: 0; padding: 0; background-color: #f8fafc; font-family: Arial, sans-serif; color: #0f172a;" }
+    %table{ width: "100%", cellpadding: "0", cellspacing: "0", border: "0", style: "background-color: #f8fafc; padding: 32px 16px;" }
+      %tr
+        %td{ align: "center" }
+          %table{ width: "100%", cellpadding: "0", cellspacing: "0", border: "0", style: "max-width: 600px; background-color: #ffffff; border-radius: 16px; padding: 32px;" }
+
+            %tr
+              %td
+                %h1{ style: "margin: 0 0 24px; font-size: 24px; color: #0f172a;" }
+                  = t("mailers.permission.role_changed.title")
+
+                %p{ style: "margin: 0 0 16px; font-size: 15px; line-height: 1.6; color: #475569;" }
+                  = t("mailers.permission.role_changed.greeting", name: @recipient.first_name.presence || @recipient.email)
+
+                %p{ style: "margin: 0 0 24px; font-size: 15px; line-height: 1.6; color: #475569;" }
+                  - if @recipient.id == @affected_user.id
+                    %p
+                      = t("mailers.permission.role_changed.updated_by", actor: @actor.full_name)
+                  - else
+                    %p
+                      = t("mailers.permission.role_changed.updated_user", user: @affected_user.full_name)
+
+            %tr
+              %td
+                %h2{ style: "margin: 0 0 12px; font-size: 18px; color: #0f172a;" }
+                  = t("mailers.permission.role_changed.previous_roles")
+
+                - if @old_roles.any?
+                  %ul{ style: "margin: 0 0 24px; padding-left: 20px; color: #475569;" }
+                    - @old_roles.each do |role|
+                      %li{ style: "margin-bottom: 6px;" }
+                        = role.name
+                - else
+                  %p{ style: "margin: 0 0 24px; color: #64748b;" }
+                    = t("mailers.permission.role_changed.no_roles")
+
+            %tr
+              %td
+                %h2{ style: "margin: 0 0 12px; font-size: 18px; color: #0f172a;" }
+                  = t("mailers.permission.role_changed.new_roles")
+
+                - if @new_roles.any?
+                  %ul{ style: "margin: 0 0 24px; padding-left: 20px; color: #475569;" }
+                    - @new_roles.each do |role|
+                      %li{ style: "margin-bottom: 6px;" }
+                        = role.name
+                - else
+                  %p{ style: "margin: 0 0 24px; color: #64748b;" }
+                    = t("mailers.permission.role_changed.no_roles")
+
+            %tr
+              %td
+                %p{ style: "margin: 16px 0 0; font-size: 13px; line-height: 1.6; color: #94a3b8;" }
+                  = t("mailers.permission.role_changed.footer")

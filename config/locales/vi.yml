@@ -253,6 +253,17 @@ vi:
         message: "Your assignment has been submitted successfully."
         content: "Assignment content"
         images: "Submitted images"
+    permission:
+      role_changed:
+        subject: "Thay đổi vai trò đã hoàn tất"
+        title: "Thay đổi vai trò đã hoàn tất"
+        greeting: "Xin chào %{name},"
+        affected_user_message: "Vai trò của bạn đã được cập nhật bởi %{actor}."
+        actor_message: "Bạn đã cập nhật vai trò của %{user}."
+        previous_roles: "Vai trò trước khi thay đổi"
+        new_roles: "Vai trò sau khi thay đổi"
+        no_roles: "Không có vai trò"
+        footer: "Nếu bạn cho rằng thay đổi này được thực hiện do nhầm lẫn, vui lòng liên hệ quản trị viên."
   activerecord:
     attributes:
       assignment:

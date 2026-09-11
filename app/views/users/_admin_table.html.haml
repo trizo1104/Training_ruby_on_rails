@@ -1,5 +1,3 @@
-= render "users/rbac/create_role"
-
 = form_with url: admin_rbac_path,
             method: :patch,
             id: "rbac-form",
@@ -21,3 +19,5 @@
                    form: "rbac-form",
                    class: "rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white"
                 
+
+= render "users/rbac/create_role"

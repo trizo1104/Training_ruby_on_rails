@@ -30,7 +30,8 @@ class Admin::RbacController < ApplicationController
     Admin::RbacUpdater.new(
       user_roles: rbac_params[:user_roles],
       role_permissions: rbac_params[:role_permissions],
-      manager_replacements: rbac_params[:manager_replacements]
+      manager_replacements: rbac_params[:manager_replacements],
+      actor: current_user
     ).call
 
     # redirect when success

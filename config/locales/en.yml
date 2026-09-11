@@ -249,6 +249,17 @@ en:
         message: "Your assignment has been submitted successfully."
         content: "Assignment content"
         images: "Submitted images"
+    permission:
+      role_changed:
+        subject: "Role changes completed"
+        title: "Role changes completed"
+        greeting: "Hello %{name},"
+        affected_user_message: "Your roles have been updated by %{actor}."
+        actor_message: "You have updated the roles of %{user}."
+        previous_roles: "Previous roles"
+        new_roles: "New roles"
+        no_roles: "No roles"
+        footer: "If you believe this change was made by mistake, please contact your administrator."
   activerecord:
     attributes:
       assignment:

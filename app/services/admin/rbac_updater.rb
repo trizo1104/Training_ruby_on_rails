@@ -1,8 +1,11 @@
 class Admin::RbacUpdater
-  def initialize (user_roles:, role_permissions:,  manager_replacements: {})
+  def initialize (user_roles:, role_permissions:,  manager_replacements: {}, actor:)
     @user_roles = user_roles || {} # role id for each users
     @role_permissions = role_permissions || {} # permission id for each role
     @manager_replacements = manager_replacements || {} # user remove manager role and who is replace
+
+    @actor = actor
+    @changed_users = []
   end
 
   def call
@@ -11,24 +14,47 @@ class Admin::RbacUpdater
       sync_user_roles
       sync_role_permissions
     end
+
+    notify_changes
   end
 
   private
+
+  # def sync_user_roles
+  #   @user_roles.each do |user_id, raw_role_ids|
+  #     user = User.find(user_id)
+
+  #     role_ids = Array(raw_role_ids).map(&:to_i)
+
+  #     if manager_replacement_for?(user)
+  #       role_ids -= [ manager_role.id ]
+  #     end
+
+  #     UserRoles::Synchronizer.new(
+  #       user: user,
+  #       role_ids: role_ids
+  #     ).call
+  #   end
+  # end
 
   def sync_user_roles
     @user_roles.each do |user_id, raw_role_ids|
       user = User.find(user_id)
 
-      role_ids = Array(raw_role_ids).map(&:to_i)
+      role_ids = Array(raw_role_ids)
+        .reject(&:blank?) # remove blank values from the array
+        .map(&:to_i)
 
       if manager_replacement_for?(user)
         role_ids -= [ manager_role.id ]
       end
 
-      UserRoles::Synchronizer.new(
+      change = Admin::UserRoleUpdater.new(
         user: user,
         role_ids: role_ids
       ).call
+
+      @changed_users << change if change
     end
   end
 
@@ -70,5 +96,29 @@ class Admin::RbacUpdater
 
   def manager_role
     @manager_role ||= Role.find_by!(name: "Manager")
+  end
+
+  def notify_changes
+    @changed_users.each do |change|
+      affected_user = change[:user]
+
+      PermissionMailer.role_changed(
+        recipient: affected_user,
+        affected_user: affected_user,
+        actor: @actor,
+        old_role_ids: change[:old_role_ids],
+        new_role_ids: change[:new_role_ids],
+      ).deliver_later
+
+      next if affected_user.id == @actor.id
+
+      PermissionMailer.role_changed(
+        recipient: @actor,
+        affected_user: affected_user,
+        actor: @actor,
+        old_role_ids: change[:old_role_ids],
+        new_role_ids: change[:new_role_ids],
+      ).deliver_later
+    end
   end
 end

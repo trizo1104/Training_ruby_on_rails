@@ -15,76 +15,63 @@ export default class extends Controller {
   }
 
   connect() {
-    // unless conflict, do not open modal
     if (this.conflictsValue.length === 0) {
       return
     }
 
-    // handle each manager if they are removed at same time
     this.currentConflictIndex = 0
-    this.open(this.conflictsValue[0])
+    this.replacements = {}
+
+    this.openCurrentConflict()
   }
 
- 
+  openCurrentConflict() {
+    const conflict =
+      this.conflictsValue[this.currentConflictIndex]
 
-  open(conflict) {
-    // save id user which is removed
-    // this.userIdTarget.value = conflict.user_id
-
-    // case 1: have another manager at same company
-    if (conflict.replacement_managers.length > 0) {
-      this.titleTarget.textContent =
-        "Manager reassignment required"
-
-      this.messageTarget.textContent =
-        `${conflict.name} is being removed as a manager. Please select a replacement manager.`
-
-      // show select
-      this.replacementSectionTarget.classList.remove("hidden")
-
-      // remove old options
-      this.selectTarget.innerHTML = ""
-
-      this.addManagers(
-        conflict.replacement_managers
-      )
-
-      // able to confirm  
-      this.enableConfirmButton()
+    if (!conflict) {
+      return
     }
 
-    // case 2: company just have one manager
-    else {
-      this.titleTarget.textContent =
-        "Cannot remove manager"
-
-      this.messageTarget.textContent =
-        `${conflict.name} is the only manager in this company. You cannot remove this manager.`
-
-      // do not show select
-      this.replacementSectionTarget.classList.add("hidden")
-
-      // disable to confirm.
-      this.disableConfirmButton()
-    }
-
-    // Mở modal.
     this.element.classList.remove("hidden")
     this.element.classList.add("flex")
-  }
+
+    this.titleTarget.textContent =
+      "Manager reassignment required"
+
+    this.messageTarget.textContent =
+      `${conflict.name} is being removed as a manager. Please select a replacement manager.`
+
+    this.replacementSectionTarget.classList.remove("hidden")
+
+    this.selectTarget.innerHTML = ""
+
+    this.addManagers(
+      conflict.replacement_managers
+    )
+
+    this.updateConfirmButton()
+    this.updateButtonText()
+}
 
   addManagers(managers) {
-    const placeholder = document.createElement("option")
+    const placeholder =
+      document.createElement("option")
 
     placeholder.value = ""
-    placeholder.textContent = "Select a manager"
+    placeholder.textContent =
+      "Select a manager"
+
     placeholder.disabled = true
     placeholder.selected = true
 
-    this.selectTarget.appendChild(placeholder)
+    this.selectTarget.appendChild(
+      placeholder
+    )
 
     managers.forEach(manager => {
-      const option = document.createElement("option")
+      const option =
+        document.createElement("option")
 
       option.value = manager.id
       option.textContent = manager.name
@@ -93,35 +80,43 @@ export default class extends Controller {
     })
   }
 
-  close() {
-    this.element.classList.add("hidden")
-    this.element.classList.remove("flex")
-  }
-
-
   confirm() {
     const conflict =
       this.conflictsValue[
         this.currentConflictIndex
       ]
 
-    // can not submit of do not have any manager replace
-    if (
-      !conflict ||
-      conflict.replacement_managers.length === 0
-    ) {
+    if (!conflict) {
       return
     }
 
     const replacementManagerId =
       this.selectTarget.value
 
-    // Chưa chọn Manager => không submit.
     if (!replacementManagerId) {
       return
     }
 
-   // do not submit form again, hidden into a form
+    // Store replacement temporarily.
+    this.replacements[conflict.user_id] =
+      replacementManagerId
+
+    this.currentConflictIndex++
+
+    // More conflicts remain.
+    if (
+      this.currentConflictIndex <
+      this.conflictsValue.length
+    ) {
+      this.openCurrentConflict()
+      return
+    }
+
+    // All conflicts have been resolved.
+    this.submitForm()
+  }
+
+  submitForm() {
     const rbacForm =
       document.querySelector(
         "form[data-rbac-form]"
@@ -135,32 +130,71 @@ export default class extends Controller {
       return
     }
 
-    
-    const input =
-      document.createElement("input")
+    Object.entries(this.replacements)
+      .forEach(
+        ([managerId, replacementManagerId]) => {
+          const input =
+            document.createElement("input")
 
-    input.type = "hidden"
+          input.type = "hidden"
 
-    input.name =
-      `manager_replacements[${conflict.user_id}]`
+          input.name =
+            `manager_replacements[${managerId}]`
 
-    input.value =
-      replacementManagerId
+          input.value =
+            replacementManagerId
 
-
-    const formData = new FormData(rbacForm)
-
-    console.log("===== FORM DATA BEFORE CONFIRM =====")
-
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value)
-    }
-
-    console.log("====================================")  
-
-    rbacForm.appendChild(input)
+          rbacForm.appendChild(input)
+        }
+      )
 
     rbacForm.requestSubmit()
+  }
+
+  cancel() {
+    // Cancel the entire current RBAC change.
+    window.location.reload()
+  }
+
+  close() {
+    this.cancel()
+  }
+
+  updateConfirmButton() {
+    const conflict =
+      this.conflictsValue[
+        this.currentConflictIndex
+      ]
+
+    if (
+      !conflict ||
+      conflict.replacement_managers.length === 0
+    ) {
+      this.disableConfirmButton()
+      return
+    }
+
+    this.enableConfirmButton()
+  }
+
+  updateButtonText() {
+    const button =
+      this.element.querySelector(
+        '[data-action~="manager-reassignment#confirm"]'
+      )
+
+    if (!button) {
+      return
+    }
+
+    const isLastConflict =
+      this.currentConflictIndex ===
+      this.conflictsValue.length - 1
+
+    button.textContent =
+      isLastConflict
+        ? "Confirm"
+        : "Next"
   }
 
   disableConfirmButton() {
@@ -174,6 +208,7 @@ export default class extends Controller {
     }
 
     button.disabled = true
+
     button.classList.add(
       "cursor-not-allowed",
       "opacity-50"
@@ -191,6 +226,7 @@ export default class extends Controller {
     }
 
     button.disabled = false
+
     button.classList.remove(
       "cursor-not-allowed",
       "opacity-50"

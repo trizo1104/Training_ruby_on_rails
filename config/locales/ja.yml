@@ -275,7 +275,17 @@ ja:
         message: "課題が正常に提出されました。"
         content: "課題の内容"
         images: "提出画像"
-
+    permission:
+      role_changed:
+        subject: "ロールの変更が完了しました"
+        title: "ロールの変更が完了しました"
+        greeting: "%{name} さん、こんにちは。"
+        affected_user_message: "%{actor} によってあなたのロールが更新されました。"
+        actor_message: "あなたは %{user} のロールを更新しました。"
+        previous_roles: "変更前のロール"
+        new_roles: "変更後のロール"
+        no_roles: "ロールはありません"
+        footer: "この変更に心当たりがない場合は、管理者にお問い合わせください。"
   activerecord:
     attributes:
       assignment:

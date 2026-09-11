@@ -44,9 +44,14 @@ class Admin::ManagerRoleChecker
   private
 
   def manager_role_removed?(user)
-    submitted_role_ids = Array(
-      @user_roles[user.id.to_s]
-    ).map(&:to_i)
+    user_id = user.id.to_s
+
+    # User do not appear in request
+    # => user unchanged
+    return false unless @user_roles.key?(user_id)
+
+    submitted_role_ids =
+      Array(@user_roles[user_id]).map(&:to_i)
 
     !submitted_role_ids.include?(manager_role.id)
   end

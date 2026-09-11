@@ -1,4 +1,6 @@
-.rounded-3xl.border.border-slate-200.bg-white.p-5.shadow-sm
+.rounded-3xl.border.border-slate-200.bg-white.p-5.shadow-sm{
+  data: { controller: "rbac" }
+}
   .mb-5
     %h2.text-lg.font-semibold.text-slate-900
       Users → Roles
@@ -22,9 +24,11 @@
 
           - selected_role_ids = submitted_user_roles.present? && submitted_user_roles.key?(user.id.to_s) ? Array(submitted_user_roles[user.id.to_s]).map(&:to_i) : user.roles.pluck(:id)
 
-          %tr.border-b.border-slate-100.hover:bg-slate-50
+          %tr.border-b.border-slate-100.hover:bg-slate-50{
+            data: {rbac_user_id: user.id, rbac_original_role_ids: selected_role_ids.to_json}
+          }
 
-            / User
+            -# User
             %td.sticky.left-0.z-10.bg-white.px-4.py-4
               = link_to user_path(user), class: "block" do
                 .flex.items-center.gap-3
@@ -45,13 +49,22 @@
                     %p.text-xs.text-slate-500
                       = user.email
 
+            -# Role
+            -# call function roleChanged in rbac controller when checkbox is changed (change event)
             - roles.each do |role|
               %td.px-6.py-4.text-center
-                = check_box_tag "user_roles[#{user.id}][]",
+                = check_box_tag nil,
                                 role.id,
                                 selected_role_ids.include?(role.id),
-                                form: "rbac-form",
+                                data: {action: "change->rbac#roleChanged", rbac_role_id: role.id },
                                 class: "h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+
+- if submitted_user_roles.present?
+  - submitted_user_roles.each do |user_id, role_ids|
+    - Array(role_ids).each do |role_id|
+      = hidden_field_tag "user_roles[#{user_id}][]",
+                        role_id,
+                        data: { rbac_submitted_user: user_id }  
 
 = render "shared/pagination", pagy: @pagy
 
