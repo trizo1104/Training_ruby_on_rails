@@ -74,6 +74,16 @@
           placeholder: t("assignments.index.search_placeholder"),
           class: "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white"
 
+      - if current_user.has_role?("Admin")
+        %div
+          = form.label :company_id,
+            t("assignments.form.company"),
+            class: "mb-2 block text-sm font-medium text-slate-700"
+
+          = form.select :company_id,
+            options_from_collection_for_select(@companies, :id, :name, params[:company_id]), { include_blank: t("common.labels.all") },
+            class: "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white"
+
       %div
         = form.label :status,
           t("common.labels.status"),

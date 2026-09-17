@@ -5,6 +5,9 @@ class AssignmentsController < ApplicationController
   def index
     @page_title = t("assignments.index.page_title")
     @active_nav = "assignments"
+
+    @companies = Company.order(:name) if current_user.has_role?("Admin")
+
     # scope = current_user.company.assignments.includes(assignment_images: { image_attachment: :blob }).order(created_at: :desc)
     scope = policy_scope(Assignment)
           .includes(:user, assignment_images: { image_attachment: :blob })
