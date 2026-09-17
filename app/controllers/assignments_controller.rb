@@ -5,7 +5,10 @@ class AssignmentsController < ApplicationController
   def index
     @page_title = t("assignments.index.page_title")
     @active_nav = "assignments"
-    scope = current_user.assignments.includes(assignment_images: { image_attachment: :blob }).order(created_at: :desc)
+    # scope = current_user.company.assignments.includes(assignment_images: { image_attachment: :blob }).order(created_at: :desc)
+    scope = policy_scope(Assignment)
+          .includes(:user, assignment_images: { image_attachment: :blob })
+          .order(created_at: :desc)
     scope = scope.where("content ILIKE ?", "%#{Assignment.sanitize_sql_like(params[:search])}%") if params[:search].present?
     scope = scope.where(status: params[:status]) if Assignment.statuses.key?(params[:status])
     # @pagy, @assignments = pagy(:offset, scope, limit: 3)
@@ -68,7 +71,10 @@ class AssignmentsController < ApplicationController
   end
 
   def new
-    @assignment = current_user.assignments.new
+    @assignment = Assignment.new(user: current_user)
+
+    authorize @assignment, :new?
+
     @page_title = t("assignments.new.page_title")
     @active_nav = "create"
   end
@@ -79,7 +85,10 @@ class AssignmentsController < ApplicationController
   end
 
   def create
-    @assignment = current_user.assignments.new
+    @assignment = current_user.company.assignments.new(
+      user: current_user
+    )
+
     assign_attributes_with_images
 
     if @assignment.save
@@ -132,7 +141,8 @@ class AssignmentsController < ApplicationController
 
   def set_assignment
     id = params[:id] || params[:assignment_id]
-    @assignment = current_user.assignments.find(id)
+    # @assignment = current_user.company.assignments.find(id)
+    @assignment = policy_scope(Assignment).find(id)
   end
 
   def assignment_params

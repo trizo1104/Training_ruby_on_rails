@@ -2,8 +2,8 @@ class CreateAssignments < ActiveRecord::Migration[8.1]
   def change
     create_table :assignments do |t|
       t.references :user,
-                   null: false,
-                   foreign_key: true
+                   null: true,
+                   foreign_key: { on_delete: nullify }
 
       t.text :content, null: false
 

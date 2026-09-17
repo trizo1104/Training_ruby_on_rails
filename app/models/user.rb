@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one_attached :avatar
-  has_many :assignments, dependent: :destroy
+  has_many :assignments, dependent: :nullify  # remove user_id from assignment and put it null
 
   belongs_to :company, optional: true
 

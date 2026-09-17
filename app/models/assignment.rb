@@ -1,7 +1,8 @@
 class Assignment < ApplicationRecord
   MAX_IMAGE_COUNT = 10
 
-  belongs_to :user
+  belongs_to :user, optional: true
+  belongs_to :company
 
   has_many :assignment_images,
         -> { order(position: :asc) },

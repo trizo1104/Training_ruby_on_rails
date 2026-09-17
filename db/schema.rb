@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_071226) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_11_093357) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,11 +52,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_071226) do
   end
 
   create_table "assignments", force: :cascade do |t|
+    t.bigint "company_id", null: false
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
+    t.index ["company_id"], name: "index_assignments_on_company_id"
     t.index ["user_id", "created_at"], name: "index_assignments_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_assignments_on_user_id"
   end
@@ -127,6 +129,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_071226) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assignment_images", "assignments"
+  add_foreign_key "assignments", "companies"
   add_foreign_key "assignments", "users"
   add_foreign_key "role_permissions", "permissions"
   add_foreign_key "role_permissions", "roles"

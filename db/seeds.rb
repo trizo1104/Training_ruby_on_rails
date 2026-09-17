@@ -81,8 +81,6 @@ admin_role.permissions = Permission.all
 # ------------------------------------------------------------
 
 manager_permissions = [
-  [ "company", "view" ],
-
   [ "user", "view" ],
   [ "user", "create" ],
   [ "user", "update" ],
