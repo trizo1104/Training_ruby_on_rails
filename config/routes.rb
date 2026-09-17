@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     skip: [ :registrations ]
 
     resources :assignments do
+      collection do
+        get :managers
+      end
+
       delete "images/:attachment_id", to: "assignments#remove_image", as: :image
     end
 

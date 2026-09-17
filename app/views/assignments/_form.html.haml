@@ -1,4 +1,31 @@
 = form_with model: assignment, class: "space-y-6", multipart: true do |form|
+  - if current_user.has_role?("Admin")
+    .rounded-2xl.border.border-slate-200.bg-slate-50.p-4{
+      data: { controller: "assignment-company-manager", assignment_company_manager_managers_url_value: managers_users_path }
+    }
+      .grid.gap-4.sm:grid-cols-2
+        %div
+          = form.label :company_id,
+            t("assignments.form.company"),
+            class: "mb-2 block text-sm font-medium text-slate-700"
+
+          = select_tag "assignment[company_id]",
+            options_from_collection_for_select(@companies, :id, :name, assignment.company_id),
+            include_blank: t("common.labels.select_company"),
+            class: "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white",
+            data: { assignment_company_manager_target: "company", action: "change->assignment-company-manager#companyChanged" }
+
+        %div
+          = form.label :user_id,
+            t("assignments.form.manager"),
+            class: "mb-2 block text-sm font-medium text-slate-700"
+
+          = select_tag "assignment[user_id]",
+            nil,
+            include_blank: t("common.labels.select_manager"),
+            class: "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:bg-white",
+            data: { assignment_company_manager_target: "manager" }
+
   = render "shared/form_errors", resource: assignment
 
   %div

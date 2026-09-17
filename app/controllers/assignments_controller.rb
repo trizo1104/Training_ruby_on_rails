@@ -11,6 +11,10 @@ class AssignmentsController < ApplicationController
           .order(created_at: :desc)
     scope = scope.where("content ILIKE ?", "%#{Assignment.sanitize_sql_like(params[:search])}%") if params[:search].present?
     scope = scope.where(status: params[:status]) if Assignment.statuses.key?(params[:status])
+
+    if current_user.has_role?("Admin")
+      scope = scope.where(company_id: params[:company_id]) if params[:company_id].present?
+    end
     # @pagy, @assignments = pagy(:offset, scope, limit: 3)
 
     respond_to do |format|
@@ -75,6 +79,10 @@ class AssignmentsController < ApplicationController
 
     authorize @assignment, :new?
 
+     if current_user.has_role?("Admin")
+      @companies = Company.order(:name)
+     end
+
     @page_title = t("assignments.new.page_title")
     @active_nav = "create"
   end
@@ -85,10 +93,9 @@ class AssignmentsController < ApplicationController
   end
 
   def create
-    @assignment = current_user.company.assignments.new(
-      user: current_user
-    )
+    @assignment = Assignment.new
 
+    assign_assignment_owner
     assign_attributes_with_images
 
     if @assignment.save
@@ -213,6 +220,23 @@ class AssignmentsController < ApplicationController
           position: index + 1
         )
       end
+    end
+  end
+
+  # check if role Admin to assign owner and company
+  def assign_assignment_owner
+    if current_user.has_role?("Admin")
+      company = Company.find(params[:assignment][:company_id])
+      manager = company.users
+                      .joins(:roles)
+                      .where(roles: { name: "Manager" })
+                      .find(params[:assignment][:user_id])
+
+      @assignment.company = company
+      @assignment.user = manager
+    else
+      @assignment.company = current_user.company
+      @assignment.user = current_user
     end
   end
 

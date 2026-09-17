@@ -1,7 +1,6 @@
 class AssignmentPolicy < ApplicationPolicy
   def create?
-    user.has_permission?("assignment", "create") &&
-      user.company.present?
+    user.has_permission?("assignment", "create")
   end
 
   def new?
