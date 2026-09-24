@@ -1,15 +1,15 @@
 source "https://rubygems.org"
 
-ruby ">= 3.3.0"
+ruby "3.2.2"
 
 # ============================================================
 # Rails core
 # ============================================================
 
-gem "rails", "~> 8.1.3"
+gem "rails", "6.1.7"
 
 # Modern Rails asset pipeline
-gem "propshaft"
+# gem "propshaft"
 
 # PostgreSQL database adapter
 gem "pg", "~> 1.1"
@@ -31,14 +31,14 @@ gem "turbo-rails"
 gem "stimulus-rails"
 
 # Tailwind CSS integration for Rails
-gem "tailwindcss-rails"
+gem "tailwindcss-rails", "2.5.0"
 
 # ============================================================
 # Authentication
 # ============================================================
 
 # Sign up, sign in, sign out, password management
-gem "devise"
+gem "devise", "~> 4.9"
 
 # ============================================================
 # Pagination
@@ -66,14 +66,14 @@ gem "jbuilder"
 # Rails database-backed services
 # ============================================================
 
-# Database-backed Rails.cache
-gem "solid_cache"
+# # Database-backed Rails.cache
+# gem "solid_cache"
 
-# Database-backed Active Job
-gem "solid_queue"
+# # Database-backed Active Job
+# gem "solid_queue"
 
-# Database-backed Action Cable
-gem "solid_cable"
+# # Database-backed Action Cable
+# gem "solid_cable"
 
 # ============================================================
 # Performance and deployment
@@ -83,10 +83,10 @@ gem "solid_cable"
 gem "bootsnap", require: false
 
 # Docker deployment with Kamal
-gem "kamal", require: false
+# gem "kamal", require: false
 
 # HTTP caching, compression and Puma acceleration
-gem "thruster", require: false
+# gem "thruster", require: false
 
 # Windows does not include timezone database files
 gem "tzinfo-data", platforms: %i[windows jruby]

@@ -4,11 +4,10 @@
 
 = t("mailers.assignment.submitted.message")
 
-= t("mailers.assignment.submitted.content"):
+= t("mailers.assignment.submitted.content")
 
 = @assignment.content
 
-= t("mailers.assignment.submitted.images"):
-- @assignment.images.each do |image|
-  = "- #{image.filename}"
+- @assignment.assignment_images.each do |assignment_image|
+  = "- #{assignment_image.image.filename}"
 

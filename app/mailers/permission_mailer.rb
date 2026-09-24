@@ -1,9 +1,11 @@
 class PermissionMailer < ApplicationMailer
-  def role_changed(recipient:, affected_user:, actor:, old_role_ids:, new_role_ids:) # user:,... - keyword argument
-    @recipient = recipient
-    @affected_user = affected_user
-    @actor = actor
+  def role_changed(params)
+    @recipient = params[:recipient]
+    @affected_user = params[:affected_user]
+    @actor = params[:actor]
 
+    old_role_ids = params[:old_role_ids]
+    new_role_ids = params[:new_role_ids]
 
     @old_roles = Role.where(id: old_role_ids).order(:name)
     @new_roles = Role.where(id: new_role_ids).order(:name)

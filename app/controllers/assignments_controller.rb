@@ -91,48 +91,69 @@ class AssignmentsController < ApplicationController
   end
 
   def edit
-    @page_title = t("assignments.edit.page_title")
-    @active_nav = "create"
+    authorize @assignment, :update?
+
+    if current_user.has_role?("Admin")
+      @companies = Company.order(:name)
+      @managers = @assignment.company.users
+                            .joins(:roles)
+                            .where(roles: { name: "Manager" })
+    end
+      @page_title = t("assignments.edit.page_title")
+      @active_nav = "create"
   end
 
   def create
     @assignment = Assignment.new
 
     assign_assignment_owner
-    assign_attributes_with_images
 
-    if @assignment.save
+    permitted = assignment_params
+    images = permitted.delete(:images)&.reject(&:blank?) || []
+
+    @assignment.assign_attributes(permitted)
+
+    Assignment.transaction do
+      @assignment.save!
+
+      attach_images!(images)
+
       @assignment.sync_status_with_images!
-
-    if @new_images_uploaded
-      AssignmentMailer.submitted(@assignment).deliver_later
     end
+
+    AssignmentMailer.submitted(@assignment).deliver_later if images.any?  # deliver_later - send email in background, deliver_now - send email immediately
 
     redirect_to @assignment, notice: t("flash.assignments.created")
-    else
-      prepare_form
-      render :new, status: :unprocessable_entity
-    end
+  rescue ActiveRecord::RecordInvalid
+    prepare_form
+    render :new, status: :unprocessable_entity
   end
 
-  def update
-    assign_attributes_with_images
 
-    if @assignment.save
+  def update
+    permitted = assignment_params
+    images = permitted.delete(:images)&.reject(&:blank?) || []
+
+    @assignment.assign_attributes(permitted)
+
+    Assignment.transaction do
+      @assignment.save!
+
+      attach_images!(images)
+
       update_image_positions!
 
       @assignment.sync_status_with_images!
-
-      if @new_images_uploaded
-        AssignmentMailer.submitted(@assignment).deliver_later # deliver_later - send email in background, deliver_now - send email immediately
-      end
-
-      redirect_to @assignment, notice: t("flash.assignments.updated")
-    else
-      prepare_form
-      render :edit, status: :unprocessable_entity
     end
+
+    AssignmentMailer.submitted(@assignment).deliver_later if images.any?
+
+    redirect_to @assignment, notice: t("flash.assignments.updated")
+  rescue ActiveRecord::RecordInvalid
+    prepare_form
+    render :edit, status: :unprocessable_entity
   end
+
 
   def destroy
     @assignment.destroy
@@ -140,14 +161,46 @@ class AssignmentsController < ApplicationController
   end
 
   def remove_image
-    attachment = @assignment.images.attachments.find(params[:attachment_id])
-    attachment.purge
-    @assignment.images.reload
+    assignment_image = @assignment.assignment_images.find(params[:attachment_id])
+
+    assignment_image.image.purge
+    assignment_image.destroy
+
     @assignment.sync_status_with_images!
-    redirect_to edit_assignment_path(@assignment), notice: t("flash.assignments.image_removed")
+
+    redirect_to edit_assignment_path(@assignment),
+                notice: t("flash.assignments.image_removed")
   end
 
   private
+
+  def attach_images!(images)
+    return if images.empty?
+
+    total_images =
+      @assignment.assignment_images.count + images.size
+
+    if total_images > Assignment::MAX_IMAGE_COUNT
+      @assignment.errors.add(:images, :too_many)
+      raise ActiveRecord::RecordInvalid, @assignment
+    end
+
+    next_position =
+      @assignment.assignment_images.maximum(:position).to_i + 1
+
+    images.each do |file|
+      assignment_image = @assignment.assignment_images.build(
+        position: next_position
+      )
+
+      assignment_image.image.attach(file)
+
+      assignment_image.save!
+
+      next_position += 1
+    end
+  end
+
 
   def set_assignment
     id = params[:id] || params[:assignment_id]
@@ -156,36 +209,12 @@ class AssignmentsController < ApplicationController
   end
 
   def assignment_params
-    params.require(:assignment).permit(:content, images: [])
-  end
-
-  def assign_attributes_with_images
-    permitted = assignment_params
-    new_images = permitted.delete(:images)
-
-    new_images = new_images&.reject(&:blank?) || []
-
-    @new_images_uploaded = new_images.any?
-
-    @assignment.assign_attributes(permitted)
-
-    return unless @new_images_uploaded
-
-    @assignment.validate_uploaded_images(new_images)
-
-    return if @assignment.errors.any?
-
-    next_position = @assignment.assignment_images.maximum(:position).to_i + 1
-
-    new_images.each do |file|
-      assignment_image = @assignment.assignment_images.build(
-        position: next_position
-      )
-
-      assignment_image.image.attach(file)
-
-      next_position += 1
-    end
+    params.require(:assignment).permit(
+      :content,
+      :company_id,
+      :user_id,
+      images: []
+    )
   end
 
   def update_image_positions!

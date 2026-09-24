@@ -15,8 +15,8 @@
 %h2
   = t("mailers.assignment.submitted.images")
 
-= @assignment.images.each do |image|
+- @assignment.assignment_images.each do |assignment_image|
   %p
-    = image_tag attachments[image.filename.to_s].url,
-                  alt: image.filename.to_s,
-                  style: "max-width: 800px; width: 100%; height: auto;" %>
+    = image_tag attachments[assignment_image.image.filename.to_s].url,
+      alt: assignment_image.image.filename.to_s,
+      style: "max-width: 800px; width: 100%; height: auto;"

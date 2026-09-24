@@ -3,7 +3,9 @@ class AssignmentMailer < ApplicationMailer
     @assignment = assignment
     @user = assignment.user
 
-    @assignment.images.each do |image|
+    @assignment.assignment_images.each do |assignment_image|
+      image = assignment_image.image
+
       resized_image =
         Assignments::ImageEncoder
           .new(image)

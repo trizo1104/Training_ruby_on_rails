@@ -1,4 +1,6 @@
 class CompaniesController < ApplicationController
+  before_action :set_companies, only: [ :new, :edit ]
+
   def index
     authorize Company
     @page_title = t("companies.index.page_title")
@@ -35,6 +37,10 @@ class CompaniesController < ApplicationController
   end
 
   private
+
+  def set_companies
+    @companies = Company.all
+  end
 
   def company_params
     params.require(:company).permit(
