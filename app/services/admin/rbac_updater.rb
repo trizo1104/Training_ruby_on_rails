@@ -89,23 +89,14 @@ class Admin::RbacUpdater
     @changed_users.each do |change|
       affected_user = change[:user]
 
-      PermissionMailer.role_changed(
-        recipient: affected_user,
-        affected_user: affected_user,
-        actor: @actor,
-        old_role_ids: change[:old_role_ids],
-        new_role_ids: change[:new_role_ids],
-      ).deliver_later
-
-      next if affected_user.id == @actor.id
-
-      PermissionMailer.role_changed(
-        recipient: @actor,
-        affected_user: affected_user,
-        actor: @actor,
-        old_role_ids: change[:old_role_ids],
-        new_role_ids: change[:new_role_ids],
-      ).deliver_later
+     Permission::RoleChangedJob
+     .set(wait: 1.minutes) # will be send mail after 1 min. (ex: wait_until: 10.minutes.from_now; wait_until: Time.zone.tomorrow.beginning_of_day)
+     .perform_later(
+      affected_user.id,
+      @actor.id,
+      change[:old_role_ids],
+      change[:new_role_ids]
+    )
     end
   end
 end
