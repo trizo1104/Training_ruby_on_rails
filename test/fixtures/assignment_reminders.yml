@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assignment: one
+  reminder_type: 1
+  scheduled_at: 2026-10-02 08:48:32
+  sent_at: 2026-10-02 08:48:32
+
+two:
+  assignment: two
+  reminder_type: 1
+  scheduled_at: 2026-10-02 08:48:32
+  sent_at: 2026-10-02 08:48:32

@@ -105,6 +105,9 @@ gem "caxlsx_rails"
 gem "wicked_pdf"
 gem "wkhtmltopdf-binary"
 
+gem "delayed_job", "4.1.13"
+gem "delayed_job_active_record", "4.1.11"
+
 group :development, :test do
   # Ruby debugger
   gem "debug",
