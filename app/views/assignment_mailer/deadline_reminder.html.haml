@@ -1,0 +1,18 @@
+%h1 Assignment deadline reminder
+
+%p
+  Your assignment
+  %strong= @assignment.content
+  is due soon.
+
+%p
+  Due date:
+  = l(@assignment.due_at, format: :long)
+
+- if @reminder.one_day_before?
+  %p
+    You have 24 hours remaining.
+
+- elsif @reminder.one_hour_before?
+  %p
+    You have 1 hour remaining.

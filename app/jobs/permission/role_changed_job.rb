@@ -28,5 +28,5 @@ end
 
 # The job itself is already executed in the background,
 # so use deliver_now instead of enqueueing another mail job.
-# 
+#
 # Async Adapter (stored on rails memmory). Other support system like: sold queue, sidekiq

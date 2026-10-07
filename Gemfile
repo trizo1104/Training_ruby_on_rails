@@ -114,6 +114,8 @@ group :development, :test do
       platforms: %i[mri windows],
       require: "debug/prelude"
 
+  gem "daemons"
+
   gem "letter_opener_web"
 
   # Generate sample data in db/seeds.rb

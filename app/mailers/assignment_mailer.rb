@@ -21,4 +21,18 @@ class AssignmentMailer < ApplicationMailer
       mail(to: @user.email, subject: I18n.t("mailers.assignment.submitted.subject")) # mail() excutes and run a view mail template
     end
   end
+
+
+  def deadline_reminder(assignment:, reminder:)
+    @assignment = assignment
+    @reminder = reminder
+    @user = assignment.user
+
+    mail(
+      to: @user.email,
+      subject: I18n.t(
+        "mailers.assignment.deadline_reminder.subject"
+      )
+    )
+  end
 end
