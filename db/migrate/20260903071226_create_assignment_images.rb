@@ -1,4 +1,4 @@
-class CreateAssignmentImages < ActiveRecord::Migration[8.1]
+class CreateAssignmentImages < ActiveRecord::Migration[6.1]
   def change
     create_table :assignment_images do |t|
       t.references :assignment, null: false, foreign_key: true

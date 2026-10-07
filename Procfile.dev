@@ -1,2 +1,3 @@
 web: bin/rails server
+worker: bin/delayed_job --pool=reminders:2 run
 css: bin/rails tailwindcss:watch

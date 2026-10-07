@@ -1,4 +1,4 @@
-class AddCompanyAndManagerToUsers < ActiveRecord::Migration[8.1]
+class AddCompanyAndManagerToUsers < ActiveRecord::Migration[6.1]
   def change
     add_reference :users, :company, foreign_key: true
 

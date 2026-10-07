@@ -8,6 +8,9 @@ class Assignment < ApplicationRecord
         -> { order(position: :asc) },
         dependent: :destroy # when assignment is deleted, all associated assignment_images also will be deleted
 
+  has_many :assignment_reminders,
+          dependent: :destroy
+
   enum status: { assigned: 0, finished: 1 }
 
   validates :content, presence: true

@@ -20,7 +20,7 @@
         = @assignment.content
 
       .mt-6.grid.gap-4.sm:grid-cols-2
-        - metadata = [[t("common.labels.owner"), @assignment.user.full_name], [t("common.labels.department"), @assignment.user.department], [t("common.labels.images"), t("common.image_count", count: @assignment.assignment_images.count)], [t("common.labels.created"), l(@assignment.created_at, format: :short)], [t("common.labels.updated"), l(@assignment.updated_at, format: :short)]]
+        - metadata = [[t("common.labels.owner"), @assignment.user.full_name], [t("common.labels.department"), @assignment.user.department], [t("common.labels.images"), t("common.image_count", count: @assignment.assignment_images.count)], [t("common.labels.created"), l(@assignment.created_at, format: :short)], [t("common.labels.updated"), l(@assignment.updated_at, format: :short)], [t("common.labels.due_at"), l(@assignment.due_at, format: :long)]]
         - metadata.each do |label, value|
           .rounded-2xl.border.border-slate-200.bg-slate-50.p-4
             %p.text-sm.text-slate-500

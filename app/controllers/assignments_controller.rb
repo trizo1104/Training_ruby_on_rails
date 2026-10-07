@@ -121,6 +121,8 @@ class AssignmentsController < ApplicationController
       @assignment.sync_status_with_images!
     end
 
+    Assignments::ReminderScheduler.new(@assignment).call
+
     AssignmentMailer.submitted(@assignment).deliver_later if images.any?  # deliver_later - send email in background, deliver_now - send email immediately
 
     redirect_to @assignment, notice: t("flash.assignments.created")
@@ -131,6 +133,8 @@ class AssignmentsController < ApplicationController
 
 
   def update
+    old_due_at = @assignment.due_at
+
     permitted = assignment_params
     images = permitted.delete(:images)&.reject(&:blank?) || []
 
@@ -144,6 +148,10 @@ class AssignmentsController < ApplicationController
       update_image_positions!
 
       @assignment.sync_status_with_images!
+    end
+
+    if old_due_at != @assignment.due_at
+      Assignments::ReminderScheduler.new(@assignment).reschedule!
     end
 
     AssignmentMailer.submitted(@assignment).deliver_later if images.any?
@@ -213,6 +221,7 @@ class AssignmentsController < ApplicationController
       :content,
       :company_id,
       :user_id,
+      :due_at,
       images: []
     )
   end
